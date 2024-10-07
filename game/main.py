@@ -16,7 +16,7 @@ class Game:
 
     def _create_sprites(self) -> None:
         self.player = objects.Player(PLAYER_TEXTURE, 0, 0, 100, 100, 5)
-        self.enemy = objects.Enemy(ENEMY_TEXTURE, 0, 0, 100, 100, 5)
+        # self.enemy = objects.Enemy(ENEMY_TEXTURE, 0, 0, 100, 100, 5)
 
     @staticmethod
     def _handle_events() -> None:
@@ -24,7 +24,7 @@ class Game:
             if event.type == pygame.QUIT:
                 sys.exit()
 
-    def update(self) -> None:
+    def game_update(self) -> None:
         # TODO: Додати оновлення ворогів та стін
         window.fill(BLACK)
 
@@ -35,14 +35,18 @@ class Game:
             bullet.update()
             bullet.draw()
 
+    def menu_update(self) -> None:
+        # TODO: Додати оновлення кнопок
+        window.blit(pygame.transform.scale(BACKGROUND_MENU, (WINDOW_WIDTH, WINDOW_HEIGHT)), (0, 0))
+
     def run(self) -> None:
         while True:
             self._handle_events()
 
             if screen == "menu":
-                window.blit(pygame.transform.scale(pygame.image.load(BACKGROUND_MENU), (WINDOW_WIDTH, WINDOW_HEIGHT)), (0, 0))
+                self.menu_update()
             elif screen == "game":
-                self.update()
+                self.game_update()
 
             pygame.display.update()
             clock.tick(FPS)

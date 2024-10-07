@@ -1,4 +1,5 @@
 import math
+from typing import Callable
 
 from settings import *
 
@@ -100,30 +101,46 @@ class Wall(GameSprite):
 
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self, x: int, y: int, width: int, height: int, color: tuple[int], label: str) -> None:
+    def __init__(self, x: int, y: int, width: int, height: int, text: str, color: tuple[int, int, int],
+                 callback: Callable) -> None:
         super().__init__()
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.color = color
-        self.label = label
+        self.callback = callback
 
-    def change_color(self, changed_color) -> None:
-        self.color = changed_color
+        self._create_button(text)
+
+    def _create_button(self, text: str) -> None:
+        font = pygame.font.Font(None, 50)
+
+        self.surface = pygame.Surface((self.width, self.height))
+        self.rect = self.surface.get_rect(center=(self.x, self.y))
+
+        self.label = font.render(text, True, WHITE)
+        self.label_rect = self.label.get_rect(center=(self.width / 2, self.height / 2))
+
+        self.surface.fill(self.color)
+        self.surface.blit(self.label, self.label_rect)
+
+    def change_color(self, color: tuple[int, int, int]) -> None:
+        self.color = color
 
     def is_pressed(self) -> bool:
         mouse = pygame.mouse.get_pos()
         click = pygame.mouse.get_pressed()
+
         if self.x < mouse[0] < self.x + self.width and self.y < mouse[1] < self.y + self.height:
             if click[0] == 1:
                 return True
-            return False
-                
-        
+        return False
 
     def update(self) -> None:
-        self.is_pressed()
+        if self.is_pressed():
+            self.callback()
+        self.surface.blit(self.label, self.label_rect)
 
     def draw(self) -> None:
-        pass
+        window.blit(self.surface, (self.rect.x, self.rect.y))

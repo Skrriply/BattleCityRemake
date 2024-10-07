@@ -11,14 +11,13 @@ FPS = 60
 
 # Кольори
 BLACK = (0, 0, 0)
-
-#Menu
-BACKGROUND_MENU = os.path.join("textures", "background-menu.png")
+WHITE = (255, 255, 255)
 
 # Спрайти
 PLAYER_TEXTURE = os.path.join("textures", "player.png")
-ENEMY_TEXTURE = os.path.join("textures", "enemy.png")
+# ENEMY_TEXTURE = os.path.join("textures", "enemy.png")
 WALL_TEXTURE = os.path.join("textures", "wall.png")
+BACKGROUND_MENU = pygame.image.load(os.path.join("textures", "background-menu.png"))
 
 # Групи спрайтів
 bullets = pygame.sprite.Group()
