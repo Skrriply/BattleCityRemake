@@ -138,7 +138,7 @@ class Wall(GameSprite):
     ) -> None:
         super().__init__(texture, x, y, width, height, speed)
         self.hp = 100
-    
+
     def update(self) -> None:
         self.update_hitbox()
 
@@ -182,13 +182,17 @@ class Button(pygame.sprite.Sprite):
     def calculate_light_color(color: tuple[int, int, int]) -> tuple[int, int, int]:
         return tuple(min(c + 15, 255) for c in color)
 
-    def change_color(self, color: tuple[int, int, int]) -> None:
-        self.color = color
-        self.light_color = self.calculate_light_color(self.color)
-
     def is_on(self) -> bool:
         x, y = pygame.mouse.get_pos()
-        return self.rect.collidepoint(x, y)
+        is_on = self.rect.collidepoint(x, y)
+
+        # Ефект при наведенні на кнопку
+        if is_on:
+            self.surface.fill(self.light_color)
+        else:
+            self.surface.fill(self.color)
+
+        return is_on
 
     def is_pressed(self) -> bool:
         buttons = pygame.mouse.get_pressed()
@@ -198,11 +202,6 @@ class Button(pygame.sprite.Sprite):
         return False
 
     def update(self) -> None:
-        # Ефект при наведенні на кнопку
-        if self.is_on():
-            self.surface.fill(self.light_color)
-        self.surface.fill(self.color)
-
         if self.is_pressed():
             self.callback()
 
