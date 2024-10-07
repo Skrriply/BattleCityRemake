@@ -10,17 +10,15 @@ pygame.display.set_caption("Battle City Remake")
 pygame.display.set_icon(pygame.image.load(PLAYER_TEXTURE))
 
 
+class ButtonCallbacks:
+    @staticmethod
+    def start_game() -> None:
+        global screen
+        screen = "game"
 
-def callback_start():
-    global screen
-    screen = "game"
-
-def callback_end():
-    exit()
-
-bt_start = objects.Button(WINDOW_WIDTH / 2, 450, 150, 50, (12, 245, 12), bt_start_text, callback_start)
-bt_exit = objects.Button(WINDOW_WIDTH / 2, 510, 150, 50, (245, 12, 12), bt_exit_text, callback_end)
-
+    @staticmethod
+    def exit() -> None:
+        sys.exit()
 
 
 class Game:
@@ -28,9 +26,17 @@ class Game:
         self._create_sprites()
 
     def _create_sprites(self) -> None:
-        self.player = objects.Player(PLAYER_TEXTURE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 100, 100, 5)
+        callbacks = ButtonCallbacks()
+        self.start_button = objects.Button(
+            WINDOW_WIDTH / 2, 450, 150, 50, "Start", (12, 245, 12), callbacks.start_game
+        )
+        self.exit_button = objects.Button(
+            WINDOW_WIDTH / 2, 510, 150, 50, "Exit", (245, 12, 12), callbacks.exit
+        )
+        self.player = objects.Player(
+            PLAYER_TEXTURE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 100, 100, 5
+        )
         # self.enemy = objects.Enemy(ENEMY_TEXTURE, 0, 0, 100, 100, 5)
-
 
     @staticmethod
     def _handle_events() -> None:
@@ -49,14 +55,15 @@ class Game:
             bullet.update()
             bullet.draw()
 
-
-
     def menu_update(self) -> None:
-        window.blit(pygame.transform.scale(BACKGROUND_MENU, (WINDOW_WIDTH, WINDOW_HEIGHT)), (0, 0))
-        bt_start.update()
-        bt_start.draw()
-        bt_exit.update()
-        bt_exit.draw()
+        window.blit(
+            pygame.transform.scale(BACKGROUND_MENU, (WINDOW_WIDTH, WINDOW_HEIGHT)),
+            (0, 0),
+        )
+        self.start_button.update()
+        self.start_button.draw()
+        self.exit_button.update()
+        self.exit_button.draw()
 
     def run(self) -> None:
         while True:

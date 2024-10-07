@@ -1,16 +1,21 @@
-import math
-from typing import Callable
-
 from settings import *
 
 
 class GameSprite(pygame.sprite.Sprite):
-    def __init__(self, texture: str, x: int, y: int, width: int, height: int, speed: int) -> None:
+    """
+    Клас ігрового спрайта.
+    """
+
+    def __init__(
+        self, texture: str, x: float, y: float, width: int, height: int, speed: int
+    ) -> None:
         super().__init__()
         self.width = width
         self.height = height
         self.speed = speed
-        self.texture = pygame.transform.scale(pygame.image.load(texture), (width, height))
+        self.texture = pygame.transform.scale(
+            pygame.image.load(texture), (width, height)
+        )
         self.start_texture = self.texture
         self.rect = self.texture.get_rect(center=(x, y))
         self.hitbox = pygame.Rect(self.rect.x, self.rect.y, width / 2, height / 2)
@@ -27,8 +32,14 @@ class GameSprite(pygame.sprite.Sprite):
 
 
 class Player(GameSprite):
-    def __init__(self, image: str, x: int, y: int, width: int, height: int, speed: int) -> None:
-        super().__init__(image, x, y, width, height, speed)
+    """
+    Клас гравця.
+    """
+
+    def __init__(
+        self, texture: str, x: float, y: float, width: int, height: int, speed: int
+    ) -> None:
+        super().__init__(texture, x, y, width, height, speed)
         self.hp = 100
         self.score = 0
         self.angle = 0
@@ -67,8 +78,14 @@ class Player(GameSprite):
 
 
 class Enemy(GameSprite):
-    def __init__(self, image: str, x: int, y: int, width: int, height: int, speed: int) -> None:
-        super().__init__(image, x, y, width, height, speed)
+    """
+    Клас ворога.
+    """
+
+    def __init__(
+        self, texture: str, x: float, y: float, width: int, height: int, speed: int
+    ) -> None:
+        super().__init__(texture, x, y, width, height, speed)
         self.hp = 100
 
     def spawn(self) -> None:
@@ -80,87 +97,116 @@ class Enemy(GameSprite):
 
 
 class Bullet(GameSprite):
-    def __init__(self, image: str, x: int, y: int, width: int, height: int, speed: int, angle: float) -> None:
-        super().__init__(image, x, y, width, height, speed)
+    """
+    Клас кулі.
+    """
+
+    def __init__(
+        self,
+        texture: str,
+        x: float,
+        y: float,
+        width: int,
+        height: int,
+        speed: int,
+        angle: float,
+    ) -> None:
+        super().__init__(texture, x, y, width, height, speed)
         self.angle = angle
 
     def update(self) -> None:
         self.update_hitbox()
-        self.rotate(math.degrees(-self.angle))
-        self.rect.x += math.cos(self.angle) * self.speed
-        self.rect.y += math.sin(self.angle) * self.speed
+        # TODO: Додати рух кулі
 
-        if self.rect.x < 0 or self.rect.x > WINDOW_WIDTH or self.rect.y < 0 or self.rect.y > WINDOW_HEIGHT:
+        # Видаляє кулю, якщо вона вийшла за ігрове вікно
+        if (
+            self.rect.x < 0
+            or self.rect.x > WINDOW_WIDTH
+            or self.rect.y < 0
+            or self.rect.y > WINDOW_HEIGHT
+        ):
             self.kill()
 
 
 class Wall(GameSprite):
-    def __init__(self, image: str, x: int, y: int, width: int, height: int, speed: int) -> None:
-        super().__init__(image, x, y, width, height, speed)
+    """
+    Клас стіни.
+    """
+
+    def __init__(
+        self, texture: str, x: float, y: float, width: int, height: int, speed: int
+    ) -> None:
+        super().__init__(texture, x, y, width, height, speed)
         self.hp = 100
+    
+    def update(self) -> None:
+        self.update_hitbox()
 
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self, x, y, w, h, color, label, callback):
+    """
+    Клас кнопки.
+    """
+
+    def __init__(
+        self,
+        x: float,
+        y: float,
+        width: int,
+        height: int,
+        text: str,
+        color: tuple[int, int, int],
+        callback: callable,
+    ) -> None:
         super().__init__()
-        if callback is not None:
-            self.callback = callback
-        else:
-            print(callback)
-
+        self.x = x
+        self.y = y
+        self.width = width
+        self.height = height
         self.color = color
-        r = color[0] + 15 if (color[0] + 15) <= 255 else 255
-        g = color[1] + 15 if (color[1] + 15) <= 255 else 255
-        b = color[2] + 15 if (color[2] + 15) <= 255 else 255
+        self.light_color = self.calculate_light_color(self.color)
+        self.callback = callback
 
-        self.light_color = (r, g, b)
-        self.h = h
-        self.w = w
-        self.pressed = False
+        self._create_button(text)
 
-        self.surface = pygame.Surface((w, h))
-
-        self.rect = self.surface.get_rect()
-        self.rect.centerx = x
-        self.rect.centery = y
-
-        self.text = label
-        self.label_rect = self.text.get_rect()
-        self.label_rect.centerx = w / 2
-        self.label_rect.centery = h / 2
-
+    def _create_button(self, text: str) -> None:
+        font = pygame.font.Font(None, 50)
+        self.surface = pygame.Surface((self.width, self.height))
+        self.rect = self.surface.get_rect(center=(self.x, self.y))
+        self.label = font.render(text, True, WHITE)
+        self.label_rect = self.label.get_rect(center=(self.width / 2, self.height / 2))
         self.surface.fill(self.color)
-        self.surface.blit(label, self.label_rect)
+        self.surface.blit(self.label, self.label_rect)
 
-    def change_color(self, color):
+    @staticmethod
+    def calculate_light_color(color: tuple[int, int, int]) -> tuple[int, int, int]:
+        return tuple(min(c + 15, 255) for c in color)
+
+    def change_color(self, color: tuple[int, int, int]) -> None:
         self.color = color
-        r = color[0] + 15 if (color[0] + 15) <= 255 else 255
-        g = color[1] + 15 if (color[1] + 15) <= 255 else 255
-        b = color[2] + 15 if (color[2] + 15) <= 255 else 255
-        self.light_color = (r, g, b)
+        self.light_color = self.calculate_light_color(self.color)
 
-    def is_on(self):
+    def is_on(self) -> bool:
         x, y = pygame.mouse.get_pos()
-        on = self.rect.collidepoint(x, y)
-        if on:
+        return self.rect.collidepoint(x, y)
+
+    def is_pressed(self) -> bool:
+        buttons = pygame.mouse.get_pressed()
+
+        if self.is_on() and buttons[0]:
+            return True
+        return False
+
+    def update(self) -> None:
+        # Ефект при наведенні на кнопку
+        if self.is_on():
             self.surface.fill(self.light_color)
-        else:
-            self.surface.fill(self.color)
+        self.surface.fill(self.color)
 
-        return on
-
-    def is_press(self):
-        bt = pygame.mouse.get_pressed()
-
-        if self.is_on() and bt[0] and not self.pressed:
-            self.pressed = True
+        if self.is_pressed():
             self.callback()
-        if not bt[0]:
-            self.pressed = False
 
-    def update(self):
-        self.is_press()
-        self.surface.blit(self.text, self.label_rect)
+        self.surface.blit(self.label, self.label_rect)
 
-    def draw(self):
+    def draw(self) -> None:
         window.blit(self.surface, (self.rect.x, self.rect.y))
