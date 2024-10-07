@@ -2,6 +2,7 @@ import os
 
 import pygame
 
+
 pygame.init()
 
 # Константи
@@ -12,6 +13,7 @@ FPS = 60
 # Кольори
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+
 
 # Спрайти
 PLAYER_TEXTURE = os.path.join("textures", "player.png")
@@ -28,3 +30,12 @@ walls = pygame.sprite.Group()
 screen = "menu"
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 clock = pygame.time.Clock()
+
+#Налаштування кнопок
+ui_font = pygame.font.Font(None, 50)
+
+bt_start_text = ui_font.render("START", True, (0,0,0))
+bt_exit_text = ui_font.render("EXIT", True, (0,0,0))
+
+
+

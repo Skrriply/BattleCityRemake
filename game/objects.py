@@ -101,46 +101,66 @@ class Wall(GameSprite):
 
 
 class Button(pygame.sprite.Sprite):
-    def __init__(self, x: int, y: int, width: int, height: int, text: str, color: tuple[int, int, int],
-                 callback: Callable) -> None:
+    def __init__(self, x, y, w, h, color, label, callback):
         super().__init__()
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
+        if callback is not None:
+            self.callback = callback
+        else:
+            print(callback)
+
         self.color = color
-        self.callback = callback
+        r = color[0] + 15 if (color[0] + 15) <= 255 else 255
+        g = color[1] + 15 if (color[1] + 15) <= 255 else 255
+        b = color[2] + 15 if (color[2] + 15) <= 255 else 255
 
-        self._create_button(text)
+        self.light_color = (r, g, b)
+        self.h = h
+        self.w = w
+        self.pressed = False
 
-    def _create_button(self, text: str) -> None:
-        font = pygame.font.Font(None, 50)
+        self.surface = pygame.Surface((w, h))
 
-        self.surface = pygame.Surface((self.width, self.height))
-        self.rect = self.surface.get_rect(center=(self.x, self.y))
+        self.rect = self.surface.get_rect()
+        self.rect.centerx = x
+        self.rect.centery = y
 
-        self.label = font.render(text, True, WHITE)
-        self.label_rect = self.label.get_rect(center=(self.width / 2, self.height / 2))
+        self.text = label
+        self.label_rect = self.text.get_rect()
+        self.label_rect.centerx = w / 2
+        self.label_rect.centery = h / 2
 
         self.surface.fill(self.color)
-        self.surface.blit(self.label, self.label_rect)
+        self.surface.blit(label, self.label_rect)
 
-    def change_color(self, color: tuple[int, int, int]) -> None:
+    def change_color(self, color):
         self.color = color
+        r = color[0] + 15 if (color[0] + 15) <= 255 else 255
+        g = color[1] + 15 if (color[1] + 15) <= 255 else 255
+        b = color[2] + 15 if (color[2] + 15) <= 255 else 255
+        self.light_color = (r, g, b)
 
-    def is_pressed(self) -> bool:
-        mouse = pygame.mouse.get_pos()
-        click = pygame.mouse.get_pressed()
+    def is_on(self):
+        x, y = pygame.mouse.get_pos()
+        on = self.rect.collidepoint(x, y)
+        if on:
+            self.surface.fill(self.light_color)
+        else:
+            self.surface.fill(self.color)
 
-        if self.x < mouse[0] < self.x + self.width and self.y < mouse[1] < self.y + self.height:
-            if click[0] == 1:
-                return True
-        return False
+        return on
 
-    def update(self) -> None:
-        if self.is_pressed():
+    def is_press(self):
+        bt = pygame.mouse.get_pressed()
+
+        if self.is_on() and bt[0] and not self.pressed:
+            self.pressed = True
             self.callback()
-        self.surface.blit(self.label, self.label_rect)
+        if not bt[0]:
+            self.pressed = False
 
-    def draw(self) -> None:
+    def update(self):
+        self.is_press()
+        self.surface.blit(self.text, self.label_rect)
+
+    def draw(self):
         window.blit(self.surface, (self.rect.x, self.rect.y))

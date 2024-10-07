@@ -10,6 +10,14 @@ pygame.display.set_caption("Battle City Remake")
 pygame.display.set_icon(pygame.image.load(PLAYER_TEXTURE))
 
 
+
+def callback_start(self):
+    player = objects.Player(PLAYER_TEXTURE, 0, 0, 100, 100, 5)
+
+bt_start = objects.Button(WINDOW_WIDTH / 2, 450, 150, 50, (12, 245, 12), bt_start_text, callback_start)
+
+
+
 class Game:
     def __init__(self) -> None:
         self._create_sprites()
@@ -17,6 +25,7 @@ class Game:
     def _create_sprites(self) -> None:
         self.player = objects.Player(PLAYER_TEXTURE, 0, 0, 100, 100, 5)
         # self.enemy = objects.Enemy(ENEMY_TEXTURE, 0, 0, 100, 100, 5)
+
 
     @staticmethod
     def _handle_events() -> None:
@@ -35,9 +44,12 @@ class Game:
             bullet.update()
             bullet.draw()
 
+
+
     def menu_update(self) -> None:
-        # TODO: Додати оновлення кнопок
         window.blit(pygame.transform.scale(BACKGROUND_MENU, (WINDOW_WIDTH, WINDOW_HEIGHT)), (0, 0))
+        bt_start.update()
+        bt_start.draw()
 
     def run(self) -> None:
         while True:
