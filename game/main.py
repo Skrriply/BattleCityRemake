@@ -11,10 +11,15 @@ pygame.display.set_icon(pygame.image.load(PLAYER_TEXTURE))
 
 
 
-def callback_start(self):
-    player = objects.Player(PLAYER_TEXTURE, 0, 0, 100, 100, 5)
+def callback_start():
+    global screen
+    screen = "game"
+
+def callback_end():
+    exit()
 
 bt_start = objects.Button(WINDOW_WIDTH / 2, 450, 150, 50, (12, 245, 12), bt_start_text, callback_start)
+bt_exit = objects.Button(WINDOW_WIDTH / 2, 510, 150, 50, (245, 12, 12), bt_exit_text, callback_end)
 
 
 
@@ -23,7 +28,7 @@ class Game:
         self._create_sprites()
 
     def _create_sprites(self) -> None:
-        self.player = objects.Player(PLAYER_TEXTURE, 0, 0, 100, 100, 5)
+        self.player = objects.Player(PLAYER_TEXTURE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 100, 100, 5)
         # self.enemy = objects.Enemy(ENEMY_TEXTURE, 0, 0, 100, 100, 5)
 
 
@@ -50,6 +55,8 @@ class Game:
         window.blit(pygame.transform.scale(BACKGROUND_MENU, (WINDOW_WIDTH, WINDOW_HEIGHT)), (0, 0))
         bt_start.update()
         bt_start.draw()
+        bt_exit.update()
+        bt_exit.draw()
 
     def run(self) -> None:
         while True:
