@@ -41,8 +41,6 @@ class Game:
                 self._handle_events()
 
                 window.blit(pygame.transform.scale(pygame.image.load(BACKGROUND_MENU), (WINDOW_WIDTH, WINDOW_HEIGHT)), (0, 0))
-                btn = objects.Button(400, 400, 300, 100, (255, 0, 0), "Start")
-                btn.update()
 
                 pygame.display.update()
                 clock.tick(FPS)
