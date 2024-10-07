@@ -12,9 +12,12 @@ FPS = 60
 # Кольори
 BLACK = (0, 0, 0)
 
+#Menu
+BACKGROUND_MENU = os.path.join("textures", "background-menu.png")
+
 # Спрайти
 PLAYER_TEXTURE = os.path.join("textures", "player.png")
-ENEMY_TEXTURE = os.path.join("textures", "player.png")
+ENEMY_TEXTURE = os.path.join("textures", "enemy.png")
 WALL_TEXTURE = os.path.join("textures", "wall.png")
 
 # Групи спрайтів
@@ -23,5 +26,6 @@ enemies = pygame.sprite.Group()
 walls = pygame.sprite.Group()
 
 # Вікно та годинник
+screen = "menu"
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 clock = pygame.time.Clock()

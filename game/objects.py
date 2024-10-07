@@ -109,14 +109,21 @@ class Button(pygame.sprite.Sprite):
         self.color = color
         self.label = label
 
-    def change_color(self) -> None:
-        pass
+    def change_color(self, changed_color) -> None:
+        self.color = changed_color
 
     def is_pressed(self) -> bool:
-        pass
+        mouse = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
+        if self.x < mouse[0] < self.x + self.width and self.y < mouse[1] < self.y + self.height:
+            if click[0] == 1:
+                return True
+            return False
+                
+        
 
     def update(self) -> None:
-        pass
+        self.is_pressed()
 
     def draw(self) -> None:
         pass
