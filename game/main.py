@@ -37,22 +37,15 @@ class Game:
 
     def run(self) -> None:
         while True:
+            self._handle_events()
+
             if screen == "menu":
-                self._handle_events()
-
                 window.blit(pygame.transform.scale(pygame.image.load(BACKGROUND_MENU), (WINDOW_WIDTH, WINDOW_HEIGHT)), (0, 0))
-
-                pygame.display.update()
-                clock.tick(FPS)
-
-
-            if screen == "game":
-                self._handle_events()
+            elif screen == "game":
                 self.update()
 
-                pygame.display.update()
-                clock.tick(FPS)
-
+            pygame.display.update()
+            clock.tick(FPS)
 
 
 if __name__ == "__main__":
