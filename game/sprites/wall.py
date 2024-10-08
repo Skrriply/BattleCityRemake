@@ -7,9 +7,9 @@ class Wall(GameSprite):
     """
 
     def __init__(
-        self, texture: str, x: float, y: float, width: int, height: int, speed: int
+        self, texture: str, x: float, y: float, width: int, height: int
     ) -> None:
-        super().__init__(texture, x, y, width, height, speed)
+        super().__init__(texture, x, y, width, height)
         self.hp = 100
 
     def update(self) -> None:

@@ -1,8 +1,8 @@
 from game.settings import WINDOW_WIDTH, WINDOW_HEIGHT
-from game.sprites.game_sprite import GameSprite
+from game.sprites.game_sprite import GameSprite, Movable
 
 
-class Bullet(GameSprite):
+class Bullet(GameSprite, Movable):
     """
     Клас кулі.
     """
@@ -17,11 +17,11 @@ class Bullet(GameSprite):
         speed: int,
         angle: float,
     ) -> None:
-        super().__init__(texture, x, y, width, height, speed)
+        super().__init__(texture, x, y, width, height)
+        self.speed = speed
         self.angle = angle
 
-    def update(self) -> None:
-        self.update_hitbox()
+    def move(self) -> None:
         # TODO: Додати рух кулі
 
         # Видаляє кулю, якщо вона вийшла за ігрове вікно
@@ -32,3 +32,7 @@ class Bullet(GameSprite):
             or self.rect.y > WINDOW_HEIGHT
         ):
             self.kill()
+
+    def update(self) -> None:
+        self.update_hitbox()
+        self.move()
