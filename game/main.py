@@ -3,8 +3,20 @@ import sys
 import pygame
 
 import game.sprites as sprites
-from game.settings import PLAYER_TEXTURE, WINDOW_WIDTH, WINDOW_HEIGHT, window, bullets, clock, FPS, BACKGROUND_TEXTURE, \
-    screen, COLORS
+from game.settings import (
+    PLAYER_TEXTURE,
+    WINDOW_WIDTH,
+    WINDOW_HEIGHT,
+    window,
+    bullets,
+    clock,
+    FPS,
+    BACKGROUND_TEXTURE,
+    screen,
+    COLORS,
+    walls,
+    WALL_TEXTURE
+)
 
 # Змінення заголовка й іконки вікна
 pygame.display.set_caption("Battle City Remake")
@@ -37,7 +49,14 @@ class Game:
         self.player = sprites.Player(
             PLAYER_TEXTURE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 100, 100, 5
         )
-        # self.enemy = objects.Enemy(ENEMY_TEXTURE, 0, 0, 100, 100, 5)
+        created_walls = [
+            sprites.Wall(WALL_TEXTURE, 100, 100, 100, 100),
+            sprites.Wall(WALL_TEXTURE, 200, 150, 100, 100),
+            sprites.Wall(WALL_TEXTURE, 300, 200, 100, 100),
+            sprites.Wall(WALL_TEXTURE, 500, 300, 100, 100),   
+        ]
+        for wall in created_walls:
+            walls.add(wall)
 
     @staticmethod
     def _handle_events() -> None:
@@ -51,6 +70,10 @@ class Game:
 
         self.player.update()
         self.player.draw()
+        
+        for wall in walls:
+            wall.update()
+            wall.draw()
 
         for bullet in bullets:
             bullet.update()
@@ -58,7 +81,9 @@ class Game:
 
     def menu_update(self) -> None:
         window.blit(
-            pygame.transform.scale(pygame.image.load(BACKGROUND_TEXTURE), (WINDOW_WIDTH, WINDOW_HEIGHT)),
+            pygame.transform.scale(
+                pygame.image.load(BACKGROUND_TEXTURE), (WINDOW_WIDTH, WINDOW_HEIGHT)
+            ),
             (0, 0),
         )
         self.start_button.update()

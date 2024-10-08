@@ -1,6 +1,14 @@
+from abc import ABC, abstractmethod
+
 import pygame
 
 from game.settings import window
+
+
+class Movable(ABC):
+    @abstractmethod
+    def move(self) -> None:
+        pass
 
 
 class GameSprite(pygame.sprite.Sprite):
@@ -9,16 +17,15 @@ class GameSprite(pygame.sprite.Sprite):
     """
 
     def __init__(
-        self, texture: str, x: float, y: float, width: int, height: int, speed: int
+        self, texture: str, x: float, y: float, width: int, height: int
     ) -> None:
         super().__init__()
         self.width = width
         self.height = height
-        self.speed = speed
         self.texture = pygame.transform.scale(
             pygame.image.load(texture), (width, height)
         )
-        self.start_texture = self.texture
+        self.start_texture = self.texture.copy()
         self.rect = self.texture.get_rect(center=(x, y))
         self.hitbox = pygame.Rect(self.rect.x, self.rect.y, width / 2, height / 2)
 
