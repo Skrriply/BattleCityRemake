@@ -1,9 +1,10 @@
 import sys
 
-import objects
-from settings import *
+import pygame
 
-pygame.init()
+import game.sprites as sprites
+from game.settings import PLAYER_TEXTURE, WINDOW_WIDTH, WINDOW_HEIGHT, window, bullets, clock, FPS, BACKGROUND_TEXTURE, \
+    screen, COLORS
 
 # Змінення заголовка й іконки вікна
 pygame.display.set_caption("Battle City Remake")
@@ -27,13 +28,13 @@ class Game:
 
     def _create_sprites(self) -> None:
         callbacks = ButtonCallbacks()
-        self.start_button = objects.Button(
+        self.start_button = sprites.Button(
             WINDOW_WIDTH / 2, 450, 150, 50, "Start", (12, 245, 12), callbacks.start_game
         )
-        self.exit_button = objects.Button(
+        self.exit_button = sprites.Button(
             WINDOW_WIDTH / 2, 510, 150, 50, "Exit", (245, 12, 12), callbacks.exit
         )
-        self.player = objects.Player(
+        self.player = sprites.Player(
             PLAYER_TEXTURE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 100, 100, 5
         )
         # self.enemy = objects.Enemy(ENEMY_TEXTURE, 0, 0, 100, 100, 5)
@@ -46,7 +47,7 @@ class Game:
 
     def game_update(self) -> None:
         # TODO: Додати оновлення ворогів та стін
-        window.fill(BLACK)
+        window.fill(COLORS["black"])
 
         self.player.update()
         self.player.draw()
@@ -57,7 +58,7 @@ class Game:
 
     def menu_update(self) -> None:
         window.blit(
-            pygame.transform.scale(BACKGROUND_MENU, (WINDOW_WIDTH, WINDOW_HEIGHT)),
+            pygame.transform.scale(pygame.image.load(BACKGROUND_TEXTURE), (WINDOW_WIDTH, WINDOW_HEIGHT)),
             (0, 0),
         )
         self.start_button.update()

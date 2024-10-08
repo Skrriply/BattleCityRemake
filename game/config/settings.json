@@ -1,0 +1,39 @@
+{
+  "window_width": 800,
+  "window_height": 600,
+  "fps": 60,
+  "colors": {
+    "black": [
+      0,
+      0,
+      0
+    ],
+    "white": [
+      255,
+      255,
+      255
+    ]
+  },
+  "textures": {
+    "player": [
+      "textures",
+      "player.png"
+    ],
+    "enemy": [
+      "textures",
+      "enemy.png"
+    ],
+    "wall": [
+      "textures",
+      "wall.png"
+    ],
+    "bullet": [
+      "textures",
+      "bullet.png"
+    ],
+    "background_menu": [
+      "textures",
+      "background-menu.png"
+    ]
+  }
+}
