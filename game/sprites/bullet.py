@@ -1,4 +1,6 @@
-from game.settings import WINDOW_WIDTH, WINDOW_HEIGHT
+import pygame
+
+from game.settings import WINDOW_WIDTH, WINDOW_HEIGHT, walls
 from game.sprites.game_sprite import GameSprite, Movable
 
 
@@ -16,10 +18,12 @@ class Bullet(GameSprite, Movable):
         height: int,
         speed: int,
         angle: float,
+        damage: int
     ) -> None:
         super().__init__(texture, x, y, width, height)
         self.speed = speed
         self.rotation_angle = angle
+        self.damage = damage
 
     def move(self) -> None:
         # Текстура кулі типово повернута праворуч
@@ -48,3 +52,10 @@ class Bullet(GameSprite, Movable):
     def update(self) -> None:
         self.update_hitbox()
         self.move()
+        
+        # Взаємодія із стіною
+        collided_walls = pygame.sprite.spritecollide(self, walls, False)
+        if collided_walls:
+            self.kill()
+            wall = collided_walls[0]
+            wall.hp -= self.damage
