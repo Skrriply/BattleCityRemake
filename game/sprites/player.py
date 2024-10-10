@@ -1,6 +1,7 @@
 import pygame
 
-from game.settings import WINDOW_WIDTH, WINDOW_HEIGHT, walls
+from game.settings import WINDOW_WIDTH, WINDOW_HEIGHT, walls, bullets, BULLET_TEXTURE, FIRE_DELAY
+from game.sprites.bullet import Bullet
 from game.sprites.game_sprite import GameSprite, Movable
 
 
@@ -17,11 +18,16 @@ class Player(GameSprite, Movable):
         self.hp = 100
         self.score = 0
         self.rotation_angle = 0
+        self.last_fire_time = pygame.time.get_ticks()  # Час останнього пострілу
 
     def fire(self) -> None:
-        # TODO: Зробити механіку вистрілу
-        pass
-    
+        current_time = pygame.time.get_ticks()
+
+        if current_time - self.last_fire_time >= FIRE_DELAY:
+            bullet = Bullet(BULLET_TEXTURE, self.rect.centerx, self.rect.centery, 50, 50, 10, self.rotation_angle)
+            bullets.add(bullet)
+            self.last_fire_time = current_time  # Оновлюємо час останнього пострілу
+
     def move(self) -> None:
         previous_coords = self.rect.copy()
 

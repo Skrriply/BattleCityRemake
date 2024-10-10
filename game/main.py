@@ -53,7 +53,7 @@ class Game:
             sprites.Wall(WALL_TEXTURE, 100, 100, 100, 100),
             sprites.Wall(WALL_TEXTURE, 200, 150, 100, 100),
             sprites.Wall(WALL_TEXTURE, 300, 200, 100, 100),
-            sprites.Wall(WALL_TEXTURE, 500, 300, 100, 100),   
+            sprites.Wall(WALL_TEXTURE, 500, 300, 100, 100),
         ]
         for wall in created_walls:
             walls.add(wall)
@@ -68,9 +68,6 @@ class Game:
         # TODO: Додати оновлення ворогів та стін
         window.fill(COLORS["black"])
 
-        self.player.update()
-        self.player.draw()
-        
         for wall in walls:
             wall.update()
             wall.draw()
@@ -78,6 +75,9 @@ class Game:
         for bullet in bullets:
             bullet.update()
             bullet.draw()
+
+        self.player.update()
+        self.player.draw()
 
     def menu_update(self) -> None:
         window.blit(

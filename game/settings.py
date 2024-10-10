@@ -33,6 +33,7 @@ TEXTURES = settings_manager.textures
 WINDOW_WIDTH = GAME_SETTINGS["window_width"]
 WINDOW_HEIGHT = GAME_SETTINGS["window_height"]
 FPS = GAME_SETTINGS["fps"]
+FIRE_DELAY = GAME_SETTINGS["fire_delay"]
 
 # Змінні
 screen = "menu"

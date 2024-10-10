@@ -2,6 +2,7 @@
   "window_width": 800,
   "window_height": 600,
   "fps": 60,
+  "fire_delay": 300,
   "colors": {
     "black": [
       0,
