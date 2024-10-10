@@ -24,7 +24,7 @@ class Player(GameSprite, Movable):
         current_time = pygame.time.get_ticks()
 
         if current_time - self.last_fire_time >= FIRE_DELAY:
-            bullet = Bullet(BULLET_TEXTURE, self.rect.centerx, self.rect.centery, 50, 50, 10, self.rotation_angle)
+            bullet = Bullet(BULLET_TEXTURE, self.rect.centerx, self.rect.centery, 50, 50, 10, self.rotation_angle, 40)
             bullets.add(bullet)
             self.last_fire_time = current_time  # Оновлюємо час останнього пострілу
 
