@@ -1,5 +1,7 @@
 from game.sprites.game_sprite import GameSprite, Movable
 
+import time
+
 
 class Enemy(GameSprite, Movable):
     """
@@ -13,13 +15,20 @@ class Enemy(GameSprite, Movable):
         self.speed = speed
         self.hp = 100
         self.rotation_angle = 0
+        self.endpos = False
 
     def spawn(self) -> None:
         pass
 
     def move(self) -> None:
-        # TODO: Додати ШІ бота
-        pass
+        if self.rect.centery >= 220 and self.endpos != True:
+            self.rect.centery -= self.speed
+            if self.rect.centery == 220:
+                self.endpos = True
+        if self.rect.centery >= 220 and self.endpos != False:
+            self.rect.centery += self.speed
+
+
 
     def update(self) -> None:
         self.update_hitbox()

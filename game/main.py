@@ -51,7 +51,7 @@ class Game:
             PLAYER_TEXTURE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 100, 100, 5
         )
         self.enemy = sprites.Enemy(
-            ENEMY_TEXTURE, 48, WINDOW_HEIGHT / 2, 100, 100, 5
+            ENEMY_TEXTURE, 48, WINDOW_HEIGHT / 2, 100, 100,1
         )
         created_walls = [
             sprites.Wall(WALL_TEXTURE, 100, 100, 100, 100),
