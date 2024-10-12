@@ -5,6 +5,7 @@ import pygame
 import game.sprites as sprites
 from game.settings import (
     PLAYER_TEXTURE,
+    ENEMY_TEXTURE,
     WINDOW_WIDTH,
     WINDOW_HEIGHT,
     window,
@@ -49,6 +50,9 @@ class Game:
         self.player = sprites.Player(
             PLAYER_TEXTURE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 100, 100, 5
         )
+        self.enemy = sprites.Enemy(
+            ENEMY_TEXTURE, 48, WINDOW_HEIGHT / 2, 100, 100, 5
+        )
         created_walls = [
             sprites.Wall(WALL_TEXTURE, 100, 100, 100, 100),
             sprites.Wall(WALL_TEXTURE, 200, 150, 100, 100),
@@ -65,7 +69,6 @@ class Game:
                 sys.exit()
 
     def game_update(self) -> None:
-        # TODO: Додати оновлення ворогів та стін
         window.fill(COLORS["black"])
 
         for wall in walls:
@@ -78,6 +81,9 @@ class Game:
 
         self.player.update()
         self.player.draw()
+
+        self.enemy.update()
+        self.enemy.draw()
 
     def menu_update(self) -> None:
         window.blit(

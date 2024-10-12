@@ -12,6 +12,7 @@ class Enemy(GameSprite, Movable):
         super().__init__(texture, x, y, width, height)
         self.speed = speed
         self.hp = 100
+        self.rotation_angle = 0
 
     def spawn(self) -> None:
         pass
