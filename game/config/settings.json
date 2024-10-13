@@ -2,6 +2,7 @@
   "window_width": 800,
   "window_height": 600,
   "fps": 60,
+  "fire_delay": 300,
   "colors": {
     "black": [
       0,
@@ -34,6 +35,20 @@
     "background_menu": [
       "textures",
       "background-menu.png"
+    ]
+  },
+  "sounds": {
+    "background_music": [
+      "sounds",
+      "theme.wav"
+    ],
+    "fire": [
+      "sounds",
+      "fire.wav"
+    ],
+    "wall_destroyed": [
+      "sounds",
+      "wall_destroyed.wav"
     ]
   }
 }

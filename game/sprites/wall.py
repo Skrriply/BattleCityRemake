@@ -1,3 +1,6 @@
+import pygame
+
+from game.settings import WALL_DESTROYED_SOUND
 from game.sprites.game_sprite import GameSprite
 
 
@@ -14,3 +17,8 @@ class Wall(GameSprite):
 
     def update(self) -> None:
         self.update_hitbox()
+
+        # Знищення стіни
+        if self.hp <= 0:
+            pygame.mixer.Sound(WALL_DESTROYED_SOUND).play()
+            self.kill()

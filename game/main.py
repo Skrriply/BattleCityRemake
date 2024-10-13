@@ -5,6 +5,7 @@ import pygame
 import game.sprites as sprites
 from game.settings import (
     PLAYER_TEXTURE,
+    ENEMY_TEXTURE,
     WINDOW_WIDTH,
     WINDOW_HEIGHT,
     window,
@@ -12,15 +13,22 @@ from game.settings import (
     clock,
     FPS,
     BACKGROUND_TEXTURE,
+    BACKGROUND_MUSIC,
+    enemies,
     screen,
     COLORS,
     walls,
-    WALL_TEXTURE
+    WALL_TEXTURE,
 )
 
 # Змінення заголовка й іконки вікна
 pygame.display.set_caption("Battle City Remake")
 pygame.display.set_icon(pygame.image.load(PLAYER_TEXTURE))
+
+# Музика
+background_music = pygame.mixer.Sound(BACKGROUND_MUSIC)
+background_music.set_volume(0.05)
+background_music.play(-1)
 
 
 class ButtonCallbacks:
@@ -39,6 +47,7 @@ class Game:
         self._create_sprites()
 
     def _create_sprites(self) -> None:
+        # Створення кнопок
         callbacks = ButtonCallbacks()
         self.start_button = sprites.Button(
             WINDOW_WIDTH / 2, 450, 150, 50, "Start", (12, 245, 12), callbacks.start_game
@@ -46,14 +55,27 @@ class Game:
         self.exit_button = sprites.Button(
             WINDOW_WIDTH / 2, 510, 150, 50, "Exit", (245, 12, 12), callbacks.exit
         )
+        
+        # Створення гравця
         self.player = sprites.Player(
             PLAYER_TEXTURE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 100, 100, 5
         )
+        
+        # Створення ворогів
+        created_enemies = [
+            sprites.Enemy(ENEMY_TEXTURE, 48, WINDOW_HEIGHT / 2, 100, 100, 1),
+        ]
+        for enemy in created_enemies:
+            enemies.add(enemy)
+        
+        # Створення стін
         created_walls = [
             sprites.Wall(WALL_TEXTURE, 100, 100, 100, 100),
-            sprites.Wall(WALL_TEXTURE, 200, 150, 100, 100),
+            sprites.Wall(WALL_TEXTURE, 100, 200, 100, 100),
+            sprites.Wall(WALL_TEXTURE, 300, 100, 100, 100),
             sprites.Wall(WALL_TEXTURE, 300, 200, 100, 100),
-            sprites.Wall(WALL_TEXTURE, 500, 300, 100, 100),   
+            sprites.Wall(WALL_TEXTURE, 400, 200, 100, 100),
+            sprites.Wall(WALL_TEXTURE, 500, 200, 100, 100),
         ]
         for wall in created_walls:
             walls.add(wall)
@@ -65,12 +87,8 @@ class Game:
                 sys.exit()
 
     def game_update(self) -> None:
-        # TODO: Додати оновлення ворогів та стін
         window.fill(COLORS["black"])
 
-        self.player.update()
-        self.player.draw()
-        
         for wall in walls:
             wall.update()
             wall.draw()
@@ -78,6 +96,13 @@ class Game:
         for bullet in bullets:
             bullet.update()
             bullet.draw()
+
+        for enemy in enemies:
+            enemy.draw()
+            enemy.update()
+
+        self.player.update()
+        self.player.draw()
 
     def menu_update(self) -> None:
         window.blit(

@@ -1,4 +1,6 @@
-from game.settings import WINDOW_WIDTH, WINDOW_HEIGHT
+import pygame
+
+from game.settings import WINDOW_WIDTH, WINDOW_HEIGHT, walls
 from game.sprites.game_sprite import GameSprite, Movable
 
 
@@ -16,13 +18,27 @@ class Bullet(GameSprite, Movable):
         height: int,
         speed: int,
         angle: float,
+        damage: int
     ) -> None:
         super().__init__(texture, x, y, width, height)
         self.speed = speed
-        self.angle = angle
+        self.rotation_angle = angle
+        self.damage = damage
 
     def move(self) -> None:
-        # TODO: Додати рух кулі
+        # Текстура кулі типово повернута праворуч
+        if self.rotation_angle == 0:  # Вгору
+            self.rotate(90)
+            self.rect.centery -= self.speed
+        elif self.rotation_angle == 90:  # Ліворуч
+            self.rotate(180)
+            self.rect.centerx -= self.speed
+        elif self.rotation_angle == 180:  # Вниз
+            self.rotate(-90)
+            self.rect.centery += self.speed
+        elif self.rotation_angle == -90:  # Праворуч
+            self.rotate(0)
+            self.rect.centerx += self.speed
 
         # Видаляє кулю, якщо вона вийшла за ігрове вікно
         if (
@@ -36,3 +52,10 @@ class Bullet(GameSprite, Movable):
     def update(self) -> None:
         self.update_hitbox()
         self.move()
+
+        # Взаємодія із стіною
+        collided_walls = pygame.sprite.spritecollide(self, walls, False)
+        if collided_walls:
+            self.kill()
+            wall = collided_walls[0]
+            wall.hp -= self.damage
