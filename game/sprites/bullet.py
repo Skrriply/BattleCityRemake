@@ -52,7 +52,7 @@ class Bullet(GameSprite, Movable):
     def update(self) -> None:
         self.update_hitbox()
         self.move()
-        
+
         # Взаємодія із стіною
         collided_walls = pygame.sprite.spritecollide(self, walls, False)
         if collided_walls:

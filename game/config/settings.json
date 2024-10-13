@@ -36,5 +36,19 @@
       "textures",
       "background-menu.png"
     ]
+  },
+  "sounds": {
+    "background_music": [
+      "sounds",
+      "theme.wav"
+    ],
+    "fire": [
+      "sounds",
+      "fire.wav"
+    ],
+    "wall_destroyed": [
+      "sounds",
+      "wall_destroyed.wav"
+    ]
   }
 }

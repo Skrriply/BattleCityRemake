@@ -1,5 +1,7 @@
-from game.sprites.game_sprite import GameSprite
 import pygame
+
+from game.settings import WALL_DESTROYED_SOUND
+from game.sprites.game_sprite import GameSprite
 
 
 class Wall(GameSprite):
@@ -18,6 +20,5 @@ class Wall(GameSprite):
 
         # Знищення стіни
         if self.hp <= 0:
+            pygame.mixer.Sound(WALL_DESTROYED_SOUND).play()
             self.kill()
-            wall = pygame.mixer.Sound('sounds\\wall_destroyed.wav')
-            wall.play()

@@ -21,6 +21,7 @@ class Settings:
         self.settings = self._load_settings()
         self.colors = self.settings["colors"]
         self.textures = self.settings["textures"]
+        self.sounds = self.settings["sounds"]
 
 
 # Завантажує налаштування з JSON
@@ -28,6 +29,7 @@ settings_manager = Settings()
 GAME_SETTINGS = settings_manager.settings
 COLORS = settings_manager.colors
 TEXTURES = settings_manager.textures
+SOUNDS = settings_manager.sounds
 
 # Константи
 WINDOW_WIDTH = GAME_SETTINGS["window_width"]
@@ -46,6 +48,11 @@ ENEMY_TEXTURE = utils.normalize_path(*TEXTURES["enemy"])
 WALL_TEXTURE = utils.normalize_path(*TEXTURES["wall"])
 BULLET_TEXTURE = utils.normalize_path(*TEXTURES["bullet"])
 BACKGROUND_TEXTURE = utils.normalize_path(*TEXTURES["background_menu"])
+
+# Шляхи до звуків та музики
+BACKGROUND_MUSIC = utils.normalize_path(*SOUNDS["background_music"])
+FIRE_SOUND = utils.normalize_path(*SOUNDS["fire"])
+WALL_DESTROYED_SOUND = utils.normalize_path(*SOUNDS["wall_destroyed"])
 
 # Групи спрайтів
 bullets = pygame.sprite.Group()

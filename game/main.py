@@ -13,19 +13,22 @@ from game.settings import (
     clock,
     FPS,
     BACKGROUND_TEXTURE,
+    BACKGROUND_MUSIC,
+    enemies,
     screen,
     COLORS,
     walls,
-    WALL_TEXTURE
+    WALL_TEXTURE,
 )
 
 # Змінення заголовка й іконки вікна
 pygame.display.set_caption("Battle City Remake")
 pygame.display.set_icon(pygame.image.load(PLAYER_TEXTURE))
 
-muzz = pygame.mixer.Sound('sounds\\theme.wav')
-muzz.set_volume(0.05)
-muzz.play(-1)
+# Музика
+background_music = pygame.mixer.Sound(BACKGROUND_MUSIC)
+background_music.set_volume(0.05)
+background_music.play(-1)
 
 
 class ButtonCallbacks:
@@ -44,6 +47,7 @@ class Game:
         self._create_sprites()
 
     def _create_sprites(self) -> None:
+        # Створення кнопок
         callbacks = ButtonCallbacks()
         self.start_button = sprites.Button(
             WINDOW_WIDTH / 2, 450, 150, 50, "Start", (12, 245, 12), callbacks.start_game
@@ -51,12 +55,20 @@ class Game:
         self.exit_button = sprites.Button(
             WINDOW_WIDTH / 2, 510, 150, 50, "Exit", (245, 12, 12), callbacks.exit
         )
+        
+        # Створення гравця
         self.player = sprites.Player(
             PLAYER_TEXTURE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 100, 100, 5
         )
-        self.enemy = sprites.Enemy(
-            ENEMY_TEXTURE, 48, WINDOW_HEIGHT / 2, 100, 100,1
-        )
+        
+        # Створення ворогів
+        created_enemies = [
+            sprites.Enemy(ENEMY_TEXTURE, 48, WINDOW_HEIGHT / 2, 100, 100, 1),
+        ]
+        for enemy in created_enemies:
+            enemies.add(enemy)
+        
+        # Створення стін
         created_walls = [
             sprites.Wall(WALL_TEXTURE, 100, 100, 100, 100),
             sprites.Wall(WALL_TEXTURE, 100, 200, 100, 100),
@@ -85,11 +97,12 @@ class Game:
             bullet.update()
             bullet.draw()
 
+        for enemy in enemies:
+            enemy.draw()
+            enemy.update()
+
         self.player.update()
         self.player.draw()
-
-        self.enemy.update()
-        self.enemy.draw()
 
     def menu_update(self) -> None:
         window.blit(
