@@ -26,6 +26,8 @@ class Player(GameSprite, Movable):
         if current_time - self.last_fire_time >= FIRE_DELAY:
             bullet = Bullet(BULLET_TEXTURE, self.rect.centerx, self.rect.centery, 50, 50, 10, self.rotation_angle, 40)
             bullets.add(bullet)
+            fire = pygame.mixer.Sound('sounds\\fire.wav')
+            fire.play()
             self.last_fire_time = current_time  # Оновлюємо час останнього пострілу
 
     def move(self) -> None:

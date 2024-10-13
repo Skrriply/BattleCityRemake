@@ -21,6 +21,7 @@ class Enemy(GameSprite, Movable):
         pass
 
     def move(self) -> None:
+        # TODO: Зробити нормальний ШІ для ворога
         if self.rect.centery >= 220 and self.endpos != True:
             self.rect.centery -= self.speed
             if self.rect.centery == 220:
@@ -32,4 +33,8 @@ class Enemy(GameSprite, Movable):
 
     def update(self) -> None:
         self.update_hitbox()
+
+        if self.hp <= 0:
+            self.kill()
+
         self.move()

@@ -23,6 +23,10 @@ from game.settings import (
 pygame.display.set_caption("Battle City Remake")
 pygame.display.set_icon(pygame.image.load(PLAYER_TEXTURE))
 
+muzz = pygame.mixer.Sound('sounds\\theme.wav')
+muzz.set_volume(0.05)
+muzz.play(-1)
+
 
 class ButtonCallbacks:
     @staticmethod
@@ -55,9 +59,11 @@ class Game:
         )
         created_walls = [
             sprites.Wall(WALL_TEXTURE, 100, 100, 100, 100),
-            sprites.Wall(WALL_TEXTURE, 200, 150, 100, 100),
+            sprites.Wall(WALL_TEXTURE, 100, 200, 100, 100),
+            sprites.Wall(WALL_TEXTURE, 300, 100, 100, 100),
             sprites.Wall(WALL_TEXTURE, 300, 200, 100, 100),
-            sprites.Wall(WALL_TEXTURE, 500, 300, 100, 100),
+            sprites.Wall(WALL_TEXTURE, 400, 200, 100, 100),
+            sprites.Wall(WALL_TEXTURE, 500, 200, 100, 100),
         ]
         for wall in created_walls:
             walls.add(wall)
