@@ -10,22 +10,18 @@ class Enemy(GameSprite, Movable):
         self, texture: str, x: float, y: float, width: int, height: int, speed: int
     ) -> None:
         super().__init__(texture, x, y, width, height)
-        self.speed = speed
-        self.hp = 100
-        self.rotation_angle = 0
-        self.endpos = False
+        # self.speed = speed
+        # self.hp = 100
+        # self.rotation_angle = 0
 
     def spawn(self) -> None:
         pass
 
     def move(self) -> None:
-        if self.rect.centery >= 220 and self.endpos != True:
-            self.rect.centery -= self.speed
-            if self.rect.centery == 220:
-                self.endpos = True
-        if self.rect.centery >= 220 and self.endpos != False:
-            self.rect.centery += self.speed
+        # TODO: Додати логіку руху через стратегії
+        pass
 
     def update(self) -> None:
         self.update_hitbox()
         self.move()
+        self.draw()

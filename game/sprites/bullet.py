@@ -18,7 +18,7 @@ class Bullet(GameSprite, Movable):
         height: int,
         speed: int,
         angle: float,
-        damage: int
+        damage: int,
     ) -> None:
         super().__init__(texture, x, y, width, height)
         self.speed = speed
@@ -52,6 +52,7 @@ class Bullet(GameSprite, Movable):
     def update(self) -> None:
         self.update_hitbox()
         self.move()
+        self.draw()
 
         # Взаємодія із стіною
         collided_walls = pygame.sprite.spritecollide(self, walls, False)

@@ -88,21 +88,10 @@ class Game:
 
     def game_update(self) -> None:
         window.fill(COLORS["black"])
-
-        for wall in walls:
-            wall.update()
-            wall.draw()
-
-        for bullet in bullets:
-            bullet.update()
-            bullet.draw()
-
-        for enemy in enemies:
-            enemy.draw()
-            enemy.update()
-
+        walls.update()
+        bullets.update()
+        enemies.update()
         self.player.update()
-        self.player.draw()
 
     def menu_update(self) -> None:
         window.blit(
@@ -112,9 +101,7 @@ class Game:
             (0, 0),
         )
         self.start_button.update()
-        self.start_button.draw()
         self.exit_button.update()
-        self.exit_button.draw()
 
     def run(self) -> None:
         while True:
