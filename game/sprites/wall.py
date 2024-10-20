@@ -10,13 +10,11 @@ class Wall(GameSprite):
     """
 
     def __init__(
-        self, texture: str, x: float, y: float, width: int, height: int
+        self, texture: str, x: float, y: float, width: int, height: int, hp: int
     ) -> None:
-        super().__init__(texture, x, y, width, height)
-        self.hp = 100
+        super().__init__(texture, x, y, width, height, hp=hp)
 
     def update(self) -> None:
-        self.update_hitbox()
         self.draw()
 
         # Знищення стіни

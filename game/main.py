@@ -15,7 +15,7 @@ from game.settings import (
     BACKGROUND_TEXTURE,
     BACKGROUND_MUSIC,
     enemies,
-    screen,
+    screen_manager,
     COLORS,
     walls,
 )
@@ -33,8 +33,7 @@ background_music.play(-1)
 class ButtonCallbacks:
     @staticmethod
     def start_game() -> None:
-        global screen
-        screen = "game"
+        screen_manager.change_screen("GAME")
 
     @staticmethod
     def exit() -> None:
@@ -59,7 +58,7 @@ class Game:
         player_x, player_y = self.map_manager.load_map()
         
         # Створення гравця
-        self.player = sprites.Player(PLAYER_TEXTURE, player_x, player_y, 100, 100, 5)
+        self.player = sprites.Player(PLAYER_TEXTURE, player_x, player_y, 100, 100, 5, 100)
 
     @staticmethod
     def _handle_events() -> None:
@@ -88,9 +87,9 @@ class Game:
         while True:
             self._handle_events()
 
-            if screen == "menu":
+            if screen_manager.screen == "MENU":
                 self.menu_update()
-            elif screen == "game":
+            elif screen_manager.screen == "GAME":
                 self.game_update()
 
             pygame.display.update()

@@ -1,6 +1,6 @@
 import pygame
 
-from game.settings import WINDOW_WIDTH, WINDOW_HEIGHT, walls
+from game.settings import WINDOW_WIDTH, WINDOW_HEIGHT, walls, enemies
 from game.sprites.game_sprite import GameSprite, Movable
 
 
@@ -17,29 +17,26 @@ class Bullet(GameSprite, Movable):
         width: int,
         height: int,
         speed: int,
-        angle: float,
+        direction: str,
         damage: int,
     ) -> None:
-        super().__init__(texture, x, y, width, height)
-        self.speed = speed
-        self.rotation_angle = angle
+        super().__init__(texture, x, y, width, height, speed=speed)
+        self.direction = direction
         self.damage = damage
 
     def move(self) -> None:
-        # Текстура кулі типово повернута праворуч
-        if self.rotation_angle == 0:  # Вгору
-            self.rotate(90)
+        if self.direction == "UP":
             self.rect.centery -= self.speed
-        elif self.rotation_angle == 90:  # Ліворуч
-            self.rotate(180)
-            self.rect.centerx -= self.speed
-        elif self.rotation_angle == 180:  # Вниз
-            self.rotate(-90)
+        elif self.direction == "DOWN":
             self.rect.centery += self.speed
-        elif self.rotation_angle == -90:  # Праворуч
-            self.rotate(0)
+        elif self.direction == "LEFT":
+            self.rect.centerx -= self.speed
+        elif self.direction == "RIGHT":
             self.rect.centerx += self.speed
+        
+        self.rotate()
 
+    def check_collisions(self) -> None:
         # Видаляє кулю, якщо вона вийшла за ігрове вікно
         if (
             self.rect.x < 0
@@ -49,14 +46,21 @@ class Bullet(GameSprite, Movable):
         ):
             self.kill()
 
-    def update(self) -> None:
-        self.update_hitbox()
-        self.move()
-        self.draw()
-
         # Взаємодія із стіною
         collided_walls = pygame.sprite.spritecollide(self, walls, False)
         if collided_walls:
             self.kill()
             wall = collided_walls[0]
             wall.hp -= self.damage
+
+        # Взаємодія із ворогом
+        collided_enemies = pygame.sprite.spritecollide(self, enemies, False)
+        if collided_enemies:
+            self.kill()
+            enemy = collided_enemies[0]
+            enemy.hp -= self.damage
+
+    def update(self) -> None:
+        self.move()
+        self.check_collisions()
+        self.draw()

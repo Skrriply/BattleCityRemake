@@ -8,11 +8,11 @@ from game.utils import open_file
 class MapObjectFactory:
     @staticmethod
     def create_wall(x: int, y: int) -> sprites.Wall:
-        return sprites.Wall(WALL_TEXTURE, x * 100, y * 100, 100, 100)
+        return sprites.Wall(WALL_TEXTURE, x * 100, y * 100, 100, 100, 100)
 
     @staticmethod
     def create_enemy(x: int, y: int) -> sprites.Enemy:
-        return sprites.Enemy(ENEMY_TEXTURE, x * 100, y * 100, 100, 100, 1)
+        return sprites.Enemy(ENEMY_TEXTURE, x * 100, y * 100, 100, 100, 1, 100)
 
 
 class MapManager:

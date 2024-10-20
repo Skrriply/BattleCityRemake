@@ -22,6 +22,14 @@ class Settings:
         self.sounds = self.settings["sounds"]
 
 
+class ScreenManager:
+    def __init__(self) -> None:
+        self.screen = "MENU"
+    
+    def change_screen(self, screen: str) -> None:
+        self.screen = screen
+
+
 # Завантажує налаштування з JSON
 settings_manager = Settings()
 GAME_SETTINGS = settings_manager.settings
@@ -36,7 +44,7 @@ FPS = GAME_SETTINGS["fps"]
 FIRE_DELAY = GAME_SETTINGS["fire_delay"]
 
 # Змінні
-screen = "menu"
+screen_manager = ScreenManager()
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 clock = pygame.time.Clock()
 

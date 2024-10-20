@@ -7,12 +7,17 @@ class Enemy(GameSprite, Movable):
     """
 
     def __init__(
-        self, texture: str, x: float, y: float, width: int, height: int, speed: int
+        self,
+        texture: str,
+        x: float,
+        y: float,
+        width: int,
+        height: int,
+        speed: int,
+        hp: int,
     ) -> None:
-        super().__init__(texture, x, y, width, height)
-        # self.speed = speed
-        # self.hp = 100
-        # self.rotation_angle = 0
+        super().__init__(texture, x, y, width, height, speed=speed, hp=hp)
+        # self.direction = None
 
     def spawn(self) -> None:
         pass
@@ -22,6 +27,5 @@ class Enemy(GameSprite, Movable):
         pass
 
     def update(self) -> None:
-        self.update_hitbox()
         self.move()
         self.draw()
