@@ -2,7 +2,7 @@ from typing import Dict, Any
 
 import pygame
 
-from game.utils import open_file, normalize_path
+from utils import open_file, normalize_path
 
 
 class Settings:

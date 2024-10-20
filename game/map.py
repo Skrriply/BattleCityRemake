@@ -1,8 +1,8 @@
 from typing import Tuple
 
-from game import sprites
-from game.settings import walls, enemies, ENEMY_TEXTURE, WALL_TEXTURE, PATH_TO_MAP
-from game.utils import open_file
+import sprites
+from settings import walls, enemies, ENEMY_TEXTURE, WALL_TEXTURE, PATH_TO_MAP
+from utils import open_file
 
 
 class MapObjectFactory:

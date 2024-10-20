@@ -1,7 +1,7 @@
 import pygame
 
-from game.settings import DEATH_SOUND
-from game.sprites.game_sprite import GameSprite, Movable
+from settings import DEATH_SOUND
+from sprites.game_sprite import GameSprite, Movable
 
 
 class Enemy(GameSprite, Movable):
@@ -31,7 +31,7 @@ class Enemy(GameSprite, Movable):
             elif self.rect.x > self.player_x:
                 self.direction = "LEFT"
                 self.rect.x -= self.speed
-    
+
             if abs(self.rect.x - self.player_x) <= self.speed:
                 if self.rect.y < self.player_y:
                     self.direction = "DOWN"
@@ -39,7 +39,7 @@ class Enemy(GameSprite, Movable):
                 elif self.rect.y > self.player_y:
                     self.direction = "UP"
                     self.rect.y -= self.speed
-    
+
             self.rotate()
 
     def _check_collisions(self) -> None:

@@ -2,9 +2,9 @@ import sys
 
 import pygame
 
-import game.sprites as sprites
-from game.map import MapManager
-from game.settings import (
+import sprites as sprites
+from map import MapManager
+from settings import (
     PLAYER_TEXTURE,
     WINDOW_WIDTH,
     WINDOW_HEIGHT,

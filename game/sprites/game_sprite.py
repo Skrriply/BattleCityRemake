@@ -2,8 +2,7 @@ from abc import ABC, abstractmethod
 from typing import Union
 
 import pygame
-
-from game.settings import window
+from settings import window
 
 
 class Movable(ABC):

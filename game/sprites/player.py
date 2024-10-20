@@ -1,6 +1,6 @@
 import pygame
 
-from game.settings import (
+from settings import (
     WINDOW_WIDTH,
     WINDOW_HEIGHT,
     walls,
@@ -9,10 +9,10 @@ from game.settings import (
     FIRE_DELAY,
     FIRE_SOUND,
     screen_manager,
-    DEATH_SOUND
+    DEATH_SOUND,
 )
-from game.sprites.bullet import Bullet
-from game.sprites.game_sprite import GameSprite, Movable
+from sprites.bullet import Bullet
+from sprites.game_sprite import GameSprite, Movable
 
 
 class Player(GameSprite, Movable):

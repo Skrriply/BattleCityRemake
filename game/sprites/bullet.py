@@ -1,6 +1,6 @@
 import pygame
 
-from game.settings import (
+from settings import (
     WINDOW_WIDTH,
     WINDOW_HEIGHT,
     walls,
@@ -8,7 +8,7 @@ from game.settings import (
     HIT_SOUND,
     WALL_HIT_SOUND,
 )
-from game.sprites.game_sprite import GameSprite, Movable
+from sprites.game_sprite import GameSprite, Movable
 
 
 class Bullet(GameSprite, Movable):
