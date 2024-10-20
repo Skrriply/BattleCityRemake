@@ -39,6 +39,10 @@
     "background_menu": [
       "textures",
       "background-menu.png"
+    ],
+    "end_menu": [
+      "textures",
+      "end-menu.png"
     ]
   },
   "sounds": {
@@ -53,6 +57,18 @@
     "wall_destroyed": [
       "sounds",
       "wall_destroyed.wav"
+    ],
+    "death": [
+      "sounds",
+      "death.wav"
+    ],
+    "hit": [
+      "sounds",
+      "hit.wav"
+    ],
+    "wall_hit": [
+      "sounds",
+      "wall_hit.wav"
     ]
   }
 }

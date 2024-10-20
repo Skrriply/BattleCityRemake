@@ -2,9 +2,9 @@ import sys
 
 import pygame
 
-import game.sprites as sprites
-from game.map import MapManager
-from game.settings import (
+import sprites as sprites
+from map import MapManager
+from settings import (
     PLAYER_TEXTURE,
     WINDOW_WIDTH,
     WINDOW_HEIGHT,
@@ -15,9 +15,10 @@ from game.settings import (
     BACKGROUND_TEXTURE,
     BACKGROUND_MUSIC,
     enemies,
-    screen,
+    screen_manager,
     COLORS,
     walls,
+    END_TEXTURE
 )
 
 # Змінення заголовка й іконки вікна
@@ -33,8 +34,7 @@ background_music.play(-1)
 class ButtonCallbacks:
     @staticmethod
     def start_game() -> None:
-        global screen
-        screen = "game"
+        screen_manager.change_screen("GAME")
 
     @staticmethod
     def exit() -> None:
@@ -55,11 +55,16 @@ class Game:
         self.exit_button = sprites.Button(
             WINDOW_WIDTH / 2, 510, 150, 50, "Exit", (245, 12, 12), callbacks.exit
         )
+        self.retry_button = sprites.Button(
+            WINDOW_WIDTH / 2, 510, 150, 50, "Retry", (245, 12, 12), callbacks.start_game
+        )
 
         player_x, player_y = self.map_manager.load_map()
         
         # Створення гравця
-        self.player = sprites.Player(PLAYER_TEXTURE, player_x, player_y, 100, 100, 5)
+        self.player = sprites.Player(
+            PLAYER_TEXTURE, player_x, player_y, 85, 100, 5, 100
+        )
 
     @staticmethod
     def _handle_events() -> None:
@@ -71,7 +76,7 @@ class Game:
         window.fill(COLORS["black"])
         walls.update()
         bullets.update()
-        enemies.update()
+        enemies.update(self.player.rect.x, self.player.rect.y)
         self.player.update()
 
     def menu_update(self) -> None:
@@ -84,14 +89,27 @@ class Game:
         self.start_button.update()
         self.exit_button.update()
 
+    def end_update(self) -> None:
+        window.blit(
+            pygame.transform.scale(
+                pygame.image.load(END_TEXTURE), (WINDOW_WIDTH, WINDOW_HEIGHT)
+            ),
+            (0, 0),
+        )
+        self.player.hp = 100
+        self.start_button.update()
+        self.exit_button.update()
+
     def run(self) -> None:
         while True:
             self._handle_events()
 
-            if screen == "menu":
+            if screen_manager.screen == "MENU":
                 self.menu_update()
-            elif screen == "game":
+            elif screen_manager.screen == "GAME":
                 self.game_update()
+            elif screen_manager.screen == "END":
+                self.end_update()
 
             pygame.display.update()
             clock.tick(FPS)

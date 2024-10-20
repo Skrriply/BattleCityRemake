@@ -2,7 +2,7 @@ from typing import Dict, Any
 
 import pygame
 
-from game.utils import open_file, normalize_path
+from utils import open_file, normalize_path
 
 
 class Settings:
@@ -22,6 +22,14 @@ class Settings:
         self.sounds = self.settings["sounds"]
 
 
+class ScreenManager:
+    def __init__(self) -> None:
+        self.screen = "MENU"
+
+    def change_screen(self, screen: str) -> None:
+        self.screen = screen
+
+
 # Завантажує налаштування з JSON
 settings_manager = Settings()
 GAME_SETTINGS = settings_manager.settings
@@ -36,7 +44,7 @@ FPS = GAME_SETTINGS["fps"]
 FIRE_DELAY = GAME_SETTINGS["fire_delay"]
 
 # Змінні
-screen = "menu"
+screen_manager = ScreenManager()
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 clock = pygame.time.Clock()
 
@@ -47,11 +55,15 @@ ENEMY_TEXTURE = normalize_path(*TEXTURES["enemy"])
 WALL_TEXTURE = normalize_path(*TEXTURES["wall"])
 BULLET_TEXTURE = normalize_path(*TEXTURES["bullet"])
 BACKGROUND_TEXTURE = normalize_path(*TEXTURES["background_menu"])
+END_TEXTURE = normalize_path(*TEXTURES["end_menu"])
 
 # Шляхи до звуків та музики
 BACKGROUND_MUSIC = normalize_path(*SOUNDS["background_music"])
 FIRE_SOUND = normalize_path(*SOUNDS["fire"])
 WALL_DESTROYED_SOUND = normalize_path(*SOUNDS["wall_destroyed"])
+DEATH_SOUND = normalize_path(*SOUNDS["death"])
+HIT_SOUND = normalize_path(*SOUNDS["hit"])
+WALL_HIT_SOUND = normalize_path(*SOUNDS["wall_hit"])
 
 # Групи спрайтів
 bullets = pygame.sprite.Group()

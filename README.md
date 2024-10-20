@@ -4,25 +4,46 @@
 [![License](https://img.shields.io/github/license/Skrriply/BattleCityRemake?style=for-the-badge)](https://github.com/Skrriply/BattleCityRemake/blob/main/LICENSE)
 
 # 🏙️ Battle City Remake
+
 Ремейк популярної гри Battle City на [pygame](https://www.pygame.org/news)
 
 # 🚀 Встановлення та запуск
+
+> **⚠️ Примітка:** Гра використовує [Python 3.12.6](https://www.python.org/downloads/)
+
 1. Клонуйте репозиторій за допомогою [Git](https://git-scm.com/)
+
 ```
 git clone https://github.com/Skrriply/BattleCityRemake.git
 cd BattleCityRemake
 ```
+
 2. Встановіть необхідні залежності
+
 ```
 pip install -r requirements.txt
 ```
+
 3. Запустіть гру
+
 ```
-cd game
-python main.py
+python game/main.py
 ```
 
+# ⌨️ Керування
+
+`W` - Рухатися вверх
+</br>
+`A` - Рухатися ліворуч
+</br>
+`S` - Рухатися вниз
+</br>
+`D` - Рухатися праворуч
+</br>
+`Space` - Стріляти
+
 # 🧑‍💻 Розробники
+
 - [GFenixxxG](https://github.com/GFenixxxG)
 - [Maksum10123](https://github.com/Maksum10123)
 - [Skrriply](https://github.com/Skrriply)

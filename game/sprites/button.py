@@ -1,8 +1,7 @@
 from typing import Tuple, Callable
 
 import pygame
-
-from game.settings import COLORS, window
+from settings import COLORS, window
 
 pygame.init()
 
