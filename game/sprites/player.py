@@ -100,5 +100,3 @@ class Player(GameSprite, Movable):
             sound.play()
             self.kill()
             screen_manager.change_screen("END")
-            self.hp = 100
-
