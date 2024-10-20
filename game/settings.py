@@ -25,7 +25,7 @@ class Settings:
 class ScreenManager:
     def __init__(self) -> None:
         self.screen = "MENU"
-    
+
     def change_screen(self, screen: str) -> None:
         self.screen = screen
 
@@ -63,7 +63,6 @@ WALL_DESTROYED_SOUND = normalize_path(*SOUNDS["wall_destroyed"])
 DEATH_SOUND = normalize_path(*SOUNDS["death"])
 HIT_SOUND = normalize_path(*SOUNDS["hit"])
 WALL_HIT_SOUND = normalize_path(*SOUNDS["wall_hit"])
-
 
 # Групи спрайтів
 bullets = pygame.sprite.Group()

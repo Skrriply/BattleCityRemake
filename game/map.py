@@ -34,7 +34,7 @@ class MapManager:
                         walls.add(obj)
                     elif char == "E":
                         enemies.add(obj)
-                elif char == "P":  # Гравець
+                elif char == "P":
                     player_coords = (x * 100, y * 100)
 
         return player_coords

@@ -19,5 +19,7 @@ class Wall(GameSprite):
 
         # Знищення стіни
         if self.hp <= 0:
-            pygame.mixer.Sound(WALL_DESTROYED_SOUND).play().set_volume(0.25)
+            sound = (pygame.mixer.Sound(WALL_DESTROYED_SOUND))
+            sound.set_volume(0.25)        
+            sound.play()
             self.kill()

@@ -1,6 +1,8 @@
-from game.sprites.game_sprite import GameSprite, Movable
 import pygame
+
 from game.settings import DEATH_SOUND
+from game.sprites.game_sprite import GameSprite, Movable
+
 
 class Enemy(GameSprite, Movable):
     """
@@ -18,19 +20,39 @@ class Enemy(GameSprite, Movable):
         hp: int,
     ) -> None:
         super().__init__(texture, x, y, width, height, speed=speed, hp=hp)
-        # self.direction = None
-
-    def spawn(self) -> None:
-        pass
+        self.player_x = None
+        self.player_y = None
 
     def move(self) -> None:
-        # TODO: Додати логіку руху через стратегії
+        if self.player_x and self.player_y:
+            if self.rect.x < self.player_x:
+                self.direction = "RIGHT"
+                self.rect.x += self.speed
+            elif self.rect.x > self.player_x:
+                self.direction = "LEFT"
+                self.rect.x -= self.speed
+    
+            if abs(self.rect.x - self.player_x) <= self.speed:
+                if self.rect.y < self.player_y:
+                    self.direction = "DOWN"
+                    self.rect.y += self.speed
+                elif self.rect.y > self.player_y:
+                    self.direction = "UP"
+                    self.rect.y -= self.speed
+    
+            self.rotate()
+
+    def _check_collisions(self) -> None:
+        # TODO: Додати зіткнення із гравцем та стінами
         pass
 
-    def update(self) -> None:
+    def update(self, player_x: float, player_y: float) -> None:
+        self.player_x, self.player_y = player_x, player_y
         self.move()
         self.draw()
 
         if self.hp <= 0:
-            pygame.mixer.Sound(DEATH_SOUND).play().set_volume(0.25)
+            sound = pygame.mixer.Sound(DEATH_SOUND)
+            sound.set_volume(0.25)
+            sound.play()
             self.kill()

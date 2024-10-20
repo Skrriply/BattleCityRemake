@@ -56,9 +56,11 @@ class Game:
         )
 
         player_x, player_y = self.map_manager.load_map()
-        
+
         # Створення гравця
-        self.player = sprites.Player(PLAYER_TEXTURE, player_x, player_y, 100, 100, 5, 100)
+        self.player = sprites.Player(
+            PLAYER_TEXTURE, player_x, player_y, 100, 100, 5, 100
+        )
 
     @staticmethod
     def _handle_events() -> None:
@@ -70,7 +72,7 @@ class Game:
         window.fill(COLORS["black"])
         walls.update()
         bullets.update()
-        enemies.update()
+        enemies.update(self.player.rect.x, self.player.rect.y)
         self.player.update()
 
     def menu_update(self) -> None:
