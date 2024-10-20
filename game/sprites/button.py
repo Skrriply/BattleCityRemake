@@ -65,11 +65,13 @@ class Button(pygame.sprite.Sprite):
             return True
         return False
 
+    def draw(self) -> None:
+        window.blit(self.surface, (self.rect.x, self.rect.y))
+
     def update(self) -> None:
         if self.is_pressed():
             self.callback()
 
         self.surface.blit(self.label, self.label_rect)
 
-    def draw(self) -> None:
-        window.blit(self.surface, (self.rect.x, self.rect.y))
+        self.draw()

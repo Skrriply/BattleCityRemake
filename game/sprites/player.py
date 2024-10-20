@@ -88,3 +88,4 @@ class Player(GameSprite, Movable):
     def update(self) -> None:
         self.update_hitbox()
         self.process_input()
+        self.draw()

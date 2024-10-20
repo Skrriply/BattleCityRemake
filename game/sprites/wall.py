@@ -17,6 +17,7 @@ class Wall(GameSprite):
 
     def update(self) -> None:
         self.update_hitbox()
+        self.draw()
 
         # Знищення стіни
         if self.hp <= 0:
