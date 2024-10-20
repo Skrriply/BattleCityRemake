@@ -1,6 +1,6 @@
 import pygame
 
-from game.settings import WINDOW_WIDTH, WINDOW_HEIGHT, walls, enemies
+from game.settings import WINDOW_WIDTH, WINDOW_HEIGHT, walls, enemies, HIT_SOUND, WALL_HIT_SOUND
 from game.sprites.game_sprite import GameSprite, Movable
 
 
@@ -49,6 +49,7 @@ class Bullet(GameSprite, Movable):
         # Взаємодія із стіною
         collided_walls = pygame.sprite.spritecollide(self, walls, False)
         if collided_walls:
+            pygame.mixer.Sound(WALL_HIT_SOUND).play().set_volume(0.15)
             self.kill()
             wall = collided_walls[0]
             wall.hp -= self.damage
@@ -56,6 +57,7 @@ class Bullet(GameSprite, Movable):
         # Взаємодія із ворогом
         collided_enemies = pygame.sprite.spritecollide(self, enemies, False)
         if collided_enemies:
+            pygame.mixer.Sound(HIT_SOUND).play().set_volume(0.15)
             self.kill()
             enemy = collided_enemies[0]
             enemy.hp -= self.damage
@@ -64,3 +66,6 @@ class Bullet(GameSprite, Movable):
         self.move()
         self.check_collisions()
         self.draw()
+
+
+

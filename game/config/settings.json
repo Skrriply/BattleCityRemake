@@ -53,6 +53,18 @@
     "wall_destroyed": [
       "sounds",
       "wall_destroyed.wav"
+    ],
+    "death": [
+      "sounds",
+      "death.wav"
+    ],
+    "hit": [
+      "sounds",
+      "hit.wav"
+    ],
+    "wall_hit": [
+      "sounds",
+      "wall_hit.wav"
     ]
   }
 }

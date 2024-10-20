@@ -60,6 +60,10 @@ BACKGROUND_TEXTURE = normalize_path(*TEXTURES["background_menu"])
 BACKGROUND_MUSIC = normalize_path(*SOUNDS["background_music"])
 FIRE_SOUND = normalize_path(*SOUNDS["fire"])
 WALL_DESTROYED_SOUND = normalize_path(*SOUNDS["wall_destroyed"])
+DEATH_SOUND = normalize_path(*SOUNDS["death"])
+HIT_SOUND = normalize_path(*SOUNDS["hit"])
+WALL_HIT_SOUND = normalize_path(*SOUNDS["wall_hit"])
+
 
 # Групи спрайтів
 bullets = pygame.sprite.Group()

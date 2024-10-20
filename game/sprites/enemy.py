@@ -1,5 +1,6 @@
 from game.sprites.game_sprite import GameSprite, Movable
-
+import pygame
+from game.settings import DEATH_SOUND
 
 class Enemy(GameSprite, Movable):
     """
@@ -29,3 +30,7 @@ class Enemy(GameSprite, Movable):
     def update(self) -> None:
         self.move()
         self.draw()
+
+        if self.hp <= 0:
+            pygame.mixer.Sound(DEATH_SOUND).play().set_volume(0.25)
+            self.kill()
