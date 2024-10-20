@@ -3,9 +3,9 @@ import sys
 import pygame
 
 import game.sprites as sprites
+from game.map import MapManager
 from game.settings import (
     PLAYER_TEXTURE,
-    ENEMY_TEXTURE,
     WINDOW_WIDTH,
     WINDOW_HEIGHT,
     window,
@@ -18,7 +18,6 @@ from game.settings import (
     screen,
     COLORS,
     walls,
-    WALL_TEXTURE,
 )
 
 # Змінення заголовка й іконки вікна
@@ -44,6 +43,7 @@ class ButtonCallbacks:
 
 class Game:
     def __init__(self) -> None:
+        self.map_manager = MapManager()
         self._create_sprites()
 
     def _create_sprites(self) -> None:
@@ -55,30 +55,11 @@ class Game:
         self.exit_button = sprites.Button(
             WINDOW_WIDTH / 2, 510, 150, 50, "Exit", (245, 12, 12), callbacks.exit
         )
+
+        player_x, player_y = self.map_manager.load_map()
         
         # Створення гравця
-        self.player = sprites.Player(
-            PLAYER_TEXTURE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2, 100, 100, 5
-        )
-        
-        # Створення ворогів
-        created_enemies = [
-            sprites.Enemy(ENEMY_TEXTURE, 48, WINDOW_HEIGHT / 2, 100, 100, 1),
-        ]
-        for enemy in created_enemies:
-            enemies.add(enemy)
-        
-        # Створення стін
-        created_walls = [
-            sprites.Wall(WALL_TEXTURE, 100, 100, 100, 100),
-            sprites.Wall(WALL_TEXTURE, 100, 200, 100, 100),
-            sprites.Wall(WALL_TEXTURE, 300, 100, 100, 100),
-            sprites.Wall(WALL_TEXTURE, 300, 200, 100, 100),
-            sprites.Wall(WALL_TEXTURE, 400, 200, 100, 100),
-            sprites.Wall(WALL_TEXTURE, 500, 200, 100, 100),
-        ]
-        for wall in created_walls:
-            walls.add(wall)
+        self.player = sprites.Player(PLAYER_TEXTURE, player_x, player_y, 100, 100, 5)
 
     @staticmethod
     def _handle_events() -> None:

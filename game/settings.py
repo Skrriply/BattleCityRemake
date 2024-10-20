@@ -1,9 +1,8 @@
-import json
 from typing import Dict, Any
 
 import pygame
 
-import game.utils as utils
+from game.utils import open_file, normalize_path
 
 
 class Settings:
@@ -12,9 +11,8 @@ class Settings:
 
     @staticmethod
     def _load_settings() -> Dict[str, Any]:
-        path_to_settings = utils.normalize_path("config", "settings.json")
-        with open(path_to_settings, "r", encoding="utf-8") as file:
-            return json.load(file)
+        path_to_settings = normalize_path("config", "settings.json")
+        return open_file(path_to_settings, is_json=True)
 
     def _init_settings(self) -> None:
         # Змінні
@@ -42,17 +40,18 @@ screen = "menu"
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 clock = pygame.time.Clock()
 
-# Шляхи до текстур
-PLAYER_TEXTURE = utils.normalize_path(*TEXTURES["player"])
-ENEMY_TEXTURE = utils.normalize_path(*TEXTURES["enemy"])
-WALL_TEXTURE = utils.normalize_path(*TEXTURES["wall"])
-BULLET_TEXTURE = utils.normalize_path(*TEXTURES["bullet"])
-BACKGROUND_TEXTURE = utils.normalize_path(*TEXTURES["background_menu"])
+# Шляхи до текстур та файлів
+PATH_TO_MAP = normalize_path(*GAME_SETTINGS["map"])
+PLAYER_TEXTURE = normalize_path(*TEXTURES["player"])
+ENEMY_TEXTURE = normalize_path(*TEXTURES["enemy"])
+WALL_TEXTURE = normalize_path(*TEXTURES["wall"])
+BULLET_TEXTURE = normalize_path(*TEXTURES["bullet"])
+BACKGROUND_TEXTURE = normalize_path(*TEXTURES["background_menu"])
 
 # Шляхи до звуків та музики
-BACKGROUND_MUSIC = utils.normalize_path(*SOUNDS["background_music"])
-FIRE_SOUND = utils.normalize_path(*SOUNDS["fire"])
-WALL_DESTROYED_SOUND = utils.normalize_path(*SOUNDS["wall_destroyed"])
+BACKGROUND_MUSIC = normalize_path(*SOUNDS["background_music"])
+FIRE_SOUND = normalize_path(*SOUNDS["fire"])
+WALL_DESTROYED_SOUND = normalize_path(*SOUNDS["wall_destroyed"])
 
 # Групи спрайтів
 bullets = pygame.sprite.Group()
