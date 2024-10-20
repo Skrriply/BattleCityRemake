@@ -55,6 +55,7 @@ ENEMY_TEXTURE = normalize_path(*TEXTURES["enemy"])
 WALL_TEXTURE = normalize_path(*TEXTURES["wall"])
 BULLET_TEXTURE = normalize_path(*TEXTURES["bullet"])
 BACKGROUND_TEXTURE = normalize_path(*TEXTURES["background_menu"])
+END_TEXTURE = normalize_path(*TEXTURES["end_menu"])
 
 # Шляхи до звуків та музики
 BACKGROUND_MUSIC = normalize_path(*SOUNDS["background_music"])

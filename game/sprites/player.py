@@ -67,7 +67,7 @@ class Player(GameSprite, Movable):
 
         if pygame.sprite.spritecollide(self, walls, False):
             self.rect = previous_coords
-
+        
         self.rotate()
 
     def process_input(self) -> None:
@@ -100,3 +100,5 @@ class Player(GameSprite, Movable):
             sound.play()
             self.kill()
             screen_manager.change_screen("END")
+            self.hp = 100
+

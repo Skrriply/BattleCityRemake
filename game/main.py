@@ -18,6 +18,7 @@ from settings import (
     screen_manager,
     COLORS,
     walls,
+    END_TEXTURE
 )
 
 # Змінення заголовка й іконки вікна
@@ -54,12 +55,15 @@ class Game:
         self.exit_button = sprites.Button(
             WINDOW_WIDTH / 2, 510, 150, 50, "Exit", (245, 12, 12), callbacks.exit
         )
+        self.retry_button = sprites.Button(
+            WINDOW_WIDTH / 2, 510, 150, 50, "Retry", (245, 12, 12), callbacks.start_game
+        )
 
         player_x, player_y = self.map_manager.load_map()
-
+        
         # Створення гравця
         self.player = sprites.Player(
-            PLAYER_TEXTURE, player_x, player_y, 100, 100, 5, 100
+            PLAYER_TEXTURE, player_x, player_y, 85, 100, 5, 100
         )
 
     @staticmethod
@@ -85,6 +89,17 @@ class Game:
         self.start_button.update()
         self.exit_button.update()
 
+    def end_update(self) -> None:
+        window.blit(
+            pygame.transform.scale(
+                pygame.image.load(END_TEXTURE), (WINDOW_WIDTH, WINDOW_HEIGHT)
+            ),
+            (0, 0),
+        )
+        self.player.hp = 100
+        self.start_button.update()
+        self.exit_button.update()
+
     def run(self) -> None:
         while True:
             self._handle_events()
@@ -93,6 +108,8 @@ class Game:
                 self.menu_update()
             elif screen_manager.screen == "GAME":
                 self.game_update()
+            elif screen_manager.screen == "END":
+                self.end_update()
 
             pygame.display.update()
             clock.tick(FPS)

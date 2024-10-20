@@ -39,6 +39,10 @@
     "background_menu": [
       "textures",
       "background-menu.png"
+    ],
+    "end_menu": [
+      "textures",
+      "end-menu.png"
     ]
   },
   "sounds": {
