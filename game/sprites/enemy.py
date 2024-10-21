@@ -1,6 +1,6 @@
 import pygame
 
-from settings import DEATH_SOUND
+from settings import DEATH_SOUND, SOUNDS_VOLUME
 from sprites.game_sprite import GameSprite, Movable
 
 
@@ -53,6 +53,6 @@ class Enemy(GameSprite, Movable):
 
         if self.hp <= 0:
             sound = pygame.mixer.Sound(DEATH_SOUND)
-            sound.set_volume(0.25)
+            sound.set_volume(SOUNDS_VOLUME)
             sound.play()
             self.kill()

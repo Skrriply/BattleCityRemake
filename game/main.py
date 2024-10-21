@@ -18,7 +18,7 @@ from settings import (
     screen_manager,
     COLORS,
     walls,
-    END_TEXTURE
+    END_TEXTURE,
 )
 
 # Змінення заголовка й іконки вікна
@@ -31,16 +31,6 @@ background_music.set_volume(0.05)
 background_music.play(-1)
 
 
-class ButtonCallbacks:
-    @staticmethod
-    def start_game() -> None:
-        screen_manager.change_screen("GAME")
-
-    @staticmethod
-    def exit() -> None:
-        sys.exit()
-
-
 class Game:
     def __init__(self) -> None:
         self.map_manager = MapManager()
@@ -48,7 +38,7 @@ class Game:
 
     def _create_sprites(self) -> None:
         # Створення кнопок
-        callbacks = ButtonCallbacks()
+        callbacks = sprites.ButtonCallbacks()
         self.start_button = sprites.Button(
             WINDOW_WIDTH / 2, 450, 150, 50, "Start", (12, 245, 12), callbacks.start_game
         )
@@ -60,7 +50,7 @@ class Game:
         )
 
         player_x, player_y = self.map_manager.load_map()
-        
+
         # Створення гравця
         self.player = sprites.Player(
             PLAYER_TEXTURE, player_x, player_y, 85, 100, 5, 100
@@ -72,14 +62,14 @@ class Game:
             if event.type == pygame.QUIT:
                 sys.exit()
 
-    def game_update(self) -> None:
+    def _game_update(self) -> None:
         window.fill(COLORS["black"])
         walls.update()
         bullets.update()
         enemies.update(self.player.rect.x, self.player.rect.y)
         self.player.update()
 
-    def menu_update(self) -> None:
+    def _menu_update(self) -> None:
         window.blit(
             pygame.transform.scale(
                 pygame.image.load(BACKGROUND_TEXTURE), (WINDOW_WIDTH, WINDOW_HEIGHT)
@@ -89,7 +79,7 @@ class Game:
         self.start_button.update()
         self.exit_button.update()
 
-    def end_update(self) -> None:
+    def _end_update(self) -> None:
         window.blit(
             pygame.transform.scale(
                 pygame.image.load(END_TEXTURE), (WINDOW_WIDTH, WINDOW_HEIGHT)
@@ -100,19 +90,22 @@ class Game:
         self.start_button.update()
         self.exit_button.update()
 
+    def _update_screen(self) -> None:
+        window.fill(COLORS["black"])
+        if screen_manager.screen == "MENU":
+            self._menu_update()
+        elif screen_manager.screen == "GAME":
+            self._game_update()
+        elif screen_manager.screen == "END":
+            self._end_update()
+
+        pygame.display.update()
+        clock.tick(FPS)
+
     def run(self) -> None:
         while True:
             self._handle_events()
-
-            if screen_manager.screen == "MENU":
-                self.menu_update()
-            elif screen_manager.screen == "GAME":
-                self.game_update()
-            elif screen_manager.screen == "END":
-                self.end_update()
-
-            pygame.display.update()
-            clock.tick(FPS)
+            self._update_screen()
 
 
 if __name__ == "__main__":

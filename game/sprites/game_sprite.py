@@ -1,7 +1,8 @@
 from abc import ABC, abstractmethod
-from typing import Union
+from typing import Optional
 
 import pygame
+
 from settings import window
 
 
@@ -17,7 +18,14 @@ class GameSprite(pygame.sprite.Sprite):
     """
 
     def __init__(
-        self, texture: str, x: float, y: float, width: int, height: int, speed: Union[int] = None, hp: Union[int] = None
+        self,
+        texture: str,
+        x: float,
+        y: float,
+        width: int,
+        height: int,
+        speed: Optional[int] = None,
+        hp: Optional[int] = None,
     ) -> None:
         super().__init__()
         self.width = width
@@ -31,19 +39,19 @@ class GameSprite(pygame.sprite.Sprite):
         self.start_texture = self.texture.copy()
         self.rect = self.texture.get_rect(center=(x, y))
 
+    def update_texture(self, texture: str) -> None:
+        self.start_texture = pygame.transform.scale(pygame.image.load(texture), (self.width, self.height))
+        self.texture = self.start_texture.copy()
+
     def rotate(self) -> None:
-        if self.direction == "UP":
-            angle = 0
-        elif self.direction == "DOWN":
-            angle = 180
-        elif self.direction == "LEFT":
-            angle = 90
-        elif self.direction == "RIGHT":
-            angle = -90
-        
-        if self.direction:
+        angles = {"UP": 0, "DOWN": 180, "LEFT": 90, "RIGHT": -90}
+
+        if self.direction in angles:
+            angle = angles[self.direction]
             self.texture = pygame.transform.rotate(self.start_texture, angle)
-            self.rect = self.texture.get_rect(center=(self.rect.centerx, self.rect.centery))
+            self.rect = self.texture.get_rect(
+                center=(self.rect.centerx, self.rect.centery)
+            )
 
     def draw(self) -> None:
         window.blit(self.texture, self.rect)

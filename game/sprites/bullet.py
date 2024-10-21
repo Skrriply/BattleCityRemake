@@ -7,6 +7,7 @@ from settings import (
     enemies,
     HIT_SOUND,
     WALL_HIT_SOUND,
+    SOUNDS_VOLUME,
 )
 from sprites.game_sprite import GameSprite, Movable
 
@@ -57,7 +58,7 @@ class Bullet(GameSprite, Movable):
         collided_walls = pygame.sprite.spritecollide(self, walls, False)
         if collided_walls:
             sound = pygame.mixer.Sound(WALL_HIT_SOUND)
-            sound.set_volume(0.25)
+            sound.set_volume(SOUNDS_VOLUME)
             sound.play()
             self.kill()
             wall = collided_walls[0]
@@ -67,7 +68,7 @@ class Bullet(GameSprite, Movable):
         collided_enemies = pygame.sprite.spritecollide(self, enemies, False)
         if collided_enemies:
             sound = pygame.mixer.Sound(HIT_SOUND)
-            sound.set_volume(0.25)
+            sound.set_volume(SOUNDS_VOLUME)
             sound.play()
             self.kill()
             enemy = collided_enemies[0]

@@ -20,6 +20,7 @@ class Settings:
         self.colors = self.settings["colors"]
         self.textures = self.settings["textures"]
         self.sounds = self.settings["sounds"]
+        self.volume = self.settings["volume"]
 
 
 class ScreenManager:
@@ -36,6 +37,7 @@ GAME_SETTINGS = settings_manager.settings
 COLORS = settings_manager.colors
 TEXTURES = settings_manager.textures
 SOUNDS = settings_manager.sounds
+VOLUME = settings_manager.volume
 
 # Константи
 WINDOW_WIDTH = GAME_SETTINGS["window_width"]
@@ -47,6 +49,8 @@ FIRE_DELAY = GAME_SETTINGS["fire_delay"]
 screen_manager = ScreenManager()
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 clock = pygame.time.Clock()
+MUSIC_VOLUME = VOLUME["music"]
+SOUNDS_VOLUME = VOLUME["sounds"]
 
 # Шляхи до текстур та файлів
 PATH_TO_MAP = normalize_path(*GAME_SETTINGS["map"])

@@ -15,6 +15,10 @@
       255
     ]
   },
+  "volume": {
+    "music": 0.5,
+    "sounds": 0.25
+  },
   "map": [
     "config",
     "map"
