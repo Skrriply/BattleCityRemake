@@ -40,16 +40,22 @@ class Game:
         # Створення кнопок
         callbacks = sprites.ButtonCallbacks()
         self.start_button = sprites.Button(
-            WINDOW_WIDTH / 2, 450, 150, 50, "Start", (12, 245, 12), callbacks.start_game
+            WINDOW_WIDTH / 2, 450, 170, 50, "Start", (12, 245, 12), callbacks.start_game
         )
         self.continue_button = sprites.Button(
-            WINDOW_WIDTH / 2, 450, 150, 50, "Start", (12, 245, 12), callbacks.start_game
+            WINDOW_WIDTH / 2,
+            450,
+            170,
+            50,
+            "Continue",
+            (12, 245, 12),
+            callbacks.start_game,
         )
         self.exit_button = sprites.Button(
-            WINDOW_WIDTH / 2, 510, 150, 50, "Exit", (245, 12, 12), callbacks.exit
+            WINDOW_WIDTH / 2, 510, 170, 50, "Exit", (245, 12, 12), callbacks.exit
         )
         self.retry_button = sprites.Button(
-            WINDOW_WIDTH / 2, 510, 150, 50, "Retry", (245, 12, 12), callbacks.start_game
+            WINDOW_WIDTH / 2, 510, 170, 50, "Retry", (245, 12, 12), callbacks.start_game
         )
 
         # Створення гравця та мапи
@@ -60,17 +66,16 @@ class Game:
 
     @staticmethod
     def _handle_events() -> None:
-        keys = pygame.key.get_pressed()
-
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-            elif keys[pygame.K_ESCAPE]:
-                screen = screen_manager.screen
-                if screen == "GAME":
-                    screen_manager.change_screen("PAUSE")
-                elif screen == "PAUSE" and screen not in ["MENU", "END"]:
-                    screen_manager.change_screen("GAME")
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    screen = screen_manager.screen
+                    if screen == "GAME":
+                        screen_manager.change_screen("PAUSE")
+                    elif screen == "PAUSE" and screen not in ["MENU", "END"]:
+                        screen_manager.change_screen("GAME")
 
     def _game_update(self) -> None:
         window.fill(COLORS["black"])
