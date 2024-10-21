@@ -42,6 +42,9 @@ class Game:
         self.start_button = sprites.Button(
             WINDOW_WIDTH / 2, 450, 150, 50, "Start", (12, 245, 12), callbacks.start_game
         )
+        self.continue_button = sprites.Button(
+            WINDOW_WIDTH / 2, 450, 150, 50, "Start", (12, 245, 12), callbacks.start_game
+        )
         self.exit_button = sprites.Button(
             WINDOW_WIDTH / 2, 510, 150, 50, "Exit", (245, 12, 12), callbacks.exit
         )
@@ -49,18 +52,25 @@ class Game:
             WINDOW_WIDTH / 2, 510, 150, 50, "Retry", (245, 12, 12), callbacks.start_game
         )
 
+        # Створення гравця та мапи
         player_x, player_y = self.map_manager.load_map()
-
-        # Створення гравця
         self.player = sprites.Player(
             PLAYER_TEXTURE, player_x, player_y, 85, 100, 5, 100
         )
 
     @staticmethod
     def _handle_events() -> None:
+        keys = pygame.key.get_pressed()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+            elif keys[pygame.K_ESCAPE]:
+                screen = screen_manager.screen
+                if screen == "GAME":
+                    screen_manager.change_screen("PAUSE")
+                elif screen == "PAUSE" and screen not in ["MENU", "END"]:
+                    screen_manager.change_screen("GAME")
 
     def _game_update(self) -> None:
         window.fill(COLORS["black"])
@@ -90,6 +100,10 @@ class Game:
         self.start_button.update()
         self.exit_button.update()
 
+    def _pause_update(self) -> None:
+        self.continue_button.update()
+        self.exit_button.update()
+
     def _update_screen(self) -> None:
         window.fill(COLORS["black"])
         if screen_manager.screen == "MENU":
@@ -98,6 +112,8 @@ class Game:
             self._game_update()
         elif screen_manager.screen == "END":
             self._end_update()
+        elif screen_manager.screen == "PAUSE":
+            self._pause_update()
 
         pygame.display.update()
         clock.tick(FPS)
