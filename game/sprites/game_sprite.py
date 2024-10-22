@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 from typing import Optional
 
 import pygame
-
 from settings import window
 
 
@@ -40,7 +39,9 @@ class GameSprite(pygame.sprite.Sprite):
         self.rect = self.texture.get_rect(center=(x, y))
 
     def update_texture(self, texture: str) -> None:
-        self.start_texture = pygame.transform.scale(pygame.image.load(texture), (self.width, self.height))
+        self.start_texture = pygame.transform.scale(
+            pygame.image.load(texture), (self.width, self.height)
+        )
         self.texture = self.start_texture.copy()
 
     def rotate(self) -> None:

@@ -43,7 +43,8 @@ VOLUME = settings_manager.volume
 WINDOW_WIDTH = GAME_SETTINGS["window_width"]
 WINDOW_HEIGHT = GAME_SETTINGS["window_height"]
 FPS = GAME_SETTINGS["fps"]
-FIRE_DELAY = GAME_SETTINGS["fire_delay"]
+PLAYER_FIRE_DELAY = GAME_SETTINGS["player_fire_delay"]
+ENEMY_FIRE_DELAY = GAME_SETTINGS["enemy_fire_delay"]
 
 # Змінні
 screen_manager = ScreenManager()

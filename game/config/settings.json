@@ -2,7 +2,8 @@
   "window_width": 800,
   "window_height": 600,
   "fps": 60,
-  "fire_delay": 300,
+  "player_fire_delay": 300,
+  "enemy_fire_delay": 500,
   "colors": {
     "black": [
       0,

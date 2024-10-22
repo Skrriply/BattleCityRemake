@@ -9,7 +9,6 @@ from settings import (
     WINDOW_WIDTH,
     WINDOW_HEIGHT,
     window,
-    bullets,
     clock,
     FPS,
     BACKGROUND_TEXTURE,
@@ -19,6 +18,10 @@ from settings import (
     COLORS,
     walls,
     END_TEXTURE,
+    bullets,
+    HIT_SOUND,
+    WALL_HIT_SOUND,
+    SOUNDS_VOLUME,
 )
 
 # Змінення заголовка й іконки вікна
@@ -77,12 +80,49 @@ class Game:
                     elif screen == "PAUSE" and screen not in ["MENU", "END"]:
                         screen_manager.change_screen("GAME")
 
+    def _check_collisions(self) -> None:
+        player_bullets = [bullet for bullet in bullets if bullet.owned_by == "PLAYER"]
+        enemy_bullets = [bullet for bullet in bullets if bullet.owned_by == "ENEMY"]
+
+        # Взаємодія ворога із кулями
+        for bullet in player_bullets:
+            collided_enemies = pygame.sprite.spritecollide(bullet, enemies, False)
+            if collided_enemies:
+                sound = pygame.mixer.Sound(HIT_SOUND)
+                sound.set_volume(SOUNDS_VOLUME)
+                sound.play()
+                bullet.kill()
+                for enemy in collided_enemies:
+                    enemy.hp -= bullet.damage
+
+        # Взаємодія гравця із кулями
+        for bullet in enemy_bullets:
+            collided = pygame.sprite.spritecollide(bullet, [self.player], False)
+            if collided:
+                sound = pygame.mixer.Sound(HIT_SOUND)
+                sound.set_volume(SOUNDS_VOLUME)
+                sound.play()
+                bullet.kill()
+                self.player.hp -= bullet.damage
+
+        # Взаємодія стіни із кулями
+        for bullet in bullets:
+            collided_walls = pygame.sprite.spritecollide(bullet, walls, False)
+            if collided_walls:
+                sound = pygame.mixer.Sound(WALL_HIT_SOUND)
+                sound.set_volume(SOUNDS_VOLUME)
+                sound.play()
+                bullet.kill()
+                for wall in collided_walls:
+                    wall.hp -= bullet.damage
+
     def _game_update(self) -> None:
         window.fill(COLORS["black"])
         walls.update()
         bullets.update()
         enemies.update(self.player.rect.x, self.player.rect.y)
         self.player.update()
+        self._check_collisions()
 
     def _menu_update(self) -> None:
         window.blit(

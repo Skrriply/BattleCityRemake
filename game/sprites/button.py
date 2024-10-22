@@ -2,7 +2,6 @@ import sys
 from typing import Tuple, Callable
 
 import pygame
-
 from settings import COLORS, window, screen_manager
 
 pygame.init()
