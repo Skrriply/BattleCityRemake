@@ -19,7 +19,7 @@ from settings import (
     walls,
     END_TEXTURE,
     bullets,
-    sound_manager
+    sound_manager,
 )
 
 # Змінення заголовка й іконки вікна
@@ -41,7 +41,13 @@ class Game:
         # Створення кнопок
         callbacks = sprites.ButtonCallbacks()
         self.start_button = sprites.Button(
-            WINDOW_WIDTH / 2, 450, 170, 50, "Start", COLORS["green"], callbacks.start_game
+            WINDOW_WIDTH / 2,
+            450,
+            170,
+            50,
+            "Start",
+            COLORS["green"],
+            callbacks.start_game,
         )
         self.continue_button = sprites.Button(
             WINDOW_WIDTH / 2,
