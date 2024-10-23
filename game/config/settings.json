@@ -63,6 +63,10 @@
     "end_menu": [
       "textures",
       "end-menu.png"
+    ],
+    "medkit": [
+      "textures",
+      "medkit.png"
     ]
   },
   "sounds": {

@@ -3,6 +3,7 @@ import sys
 import pygame
 
 import sprites as sprites
+from game.settings import MEDKIT_TEXTURE
 from map import MapManager
 from settings import (
     PLAYER_TEXTURE,
@@ -59,16 +60,32 @@ class Game:
             callbacks.start_game,
         )
         self.exit_button = sprites.Button(
-            WINDOW_WIDTH / 2, 510, 170, 50, "Exit", COLORS["red"], callbacks.exit
+            WINDOW_WIDTH / 2,
+            510,
+            170,
+            50,
+            "Exit",
+            COLORS["red"],
+            callbacks.exit
         )
         self.retry_button = sprites.Button(
-            WINDOW_WIDTH / 2, 450, 170, 50, "Retry", COLORS["yellow"], self.restart
+            WINDOW_WIDTH / 2,
+            450,
+            170,
+            50,
+            "Retry",
+            COLORS["yellow"],
+            self.restart
         )
 
         # Створення гравця та мапи
         player_x, player_y = self.map_manager.load_map()
         self.player = sprites.Player(
             PLAYER_TEXTURE, player_x, player_y, 85, 100, 5, 100
+        )
+
+        self.medkit = sprites.Medkit(
+            MEDKIT_TEXTURE, 50, 50, 85, 100
         )
 
     @staticmethod
@@ -128,6 +145,7 @@ class Game:
         enemies.update(self.player.rect.x, self.player.rect.y)
         self.player.update()
         self._check_collisions()
+        self.medkit.update()
 
     def _menu_update(self) -> None:
         window.blit(

@@ -84,6 +84,7 @@ WALL_TEXTURE = normalize_path(*TEXTURES["wall"])
 BULLET_TEXTURE = normalize_path(*TEXTURES["bullet"])
 BACKGROUND_TEXTURE = normalize_path(*TEXTURES["background_menu"])
 END_TEXTURE = normalize_path(*TEXTURES["end_menu"])
+MEDKIT_TEXTURE = normalize_path(*TEXTURES["medkit"])
 
 # Групи спрайтів
 bullets = pygame.sprite.Group()
