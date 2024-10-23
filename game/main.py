@@ -56,7 +56,7 @@ class Game:
             WINDOW_WIDTH / 2, 510, 170, 50, "Exit", COLORS["red"], callbacks.exit
         )
         self.retry_button = sprites.Button(
-            WINDOW_WIDTH / 2, 450, 170, 50, "Retry", COLORS["yellow"], callbacks.retry_game
+            WINDOW_WIDTH / 2, 450, 170, 50, "Retry", COLORS["yellow"], self._retry_func
         )
 
         # Створення гравця та мапи
@@ -143,15 +143,15 @@ class Game:
         self.retry_button.update()
         self.exit_button.update()
 
-    def _pause_update(self) -> None:
-        self.continue_button.update()
-        self.exit_button.update()
-
-    def _retry_update(self) -> None:
+    def _retry_func(self) -> None:
         self.player.kill()
         enemies.empty()
         game._create_sprites()
         screen_manager.screen = "GAME"
+
+    def _pause_update(self) -> None:
+        self.continue_button.update()
+        self.exit_button.update()
 
     def _update_screen(self) -> None:
         window.fill(COLORS["black"])
@@ -163,8 +163,6 @@ class Game:
             self._end_update()
         elif screen_manager.screen == "PAUSE":
             self._pause_update()
-        elif screen_manager.screen == "RETRY":
-            self._retry_update()
 
         pygame.display.update()
         clock.tick(FPS)
