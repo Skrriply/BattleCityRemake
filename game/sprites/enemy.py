@@ -1,12 +1,5 @@
 import pygame
-from settings import (
-    DEATH_SOUND,
-    SOUNDS_VOLUME,
-    bullets,
-    ENEMY_FIRE_DELAY,
-    BULLET_TEXTURE,
-    FIRE_SOUND,
-)
+from settings import bullets, ENEMY_FIRE_DELAY, BULLET_TEXTURE, sound_manager
 from sprites.bullet import Bullet
 from sprites.game_sprite import GameSprite, Movable
 
@@ -35,9 +28,7 @@ class Enemy(GameSprite, Movable):
         current_time = pygame.time.get_ticks()
 
         if current_time - self.last_fire_time >= ENEMY_FIRE_DELAY:
-            sound = pygame.mixer.Sound(FIRE_SOUND)
-            sound.set_volume(SOUNDS_VOLUME)
-            sound.play()
+            sound_manager.play_sound("fire")
             bullet = Bullet(
                 BULLET_TEXTURE,
                 self.rect.centerx,
@@ -78,7 +69,5 @@ class Enemy(GameSprite, Movable):
         self.draw()
 
         if self.hp <= 0:
-            sound = pygame.mixer.Sound(DEATH_SOUND)
-            sound.set_volume(SOUNDS_VOLUME)
-            sound.play()
+            sound_manager.play_sound("death")
             self.kill()

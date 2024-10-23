@@ -3,7 +3,6 @@ import sys
 import pygame
 
 import sprites as sprites
-from game.settings import DEATH_SOUND
 from map import MapManager
 from settings import (
     PLAYER_TEXTURE,
@@ -20,9 +19,7 @@ from settings import (
     walls,
     END_TEXTURE,
     bullets,
-    HIT_SOUND,
-    WALL_HIT_SOUND,
-    SOUNDS_VOLUME,
+    sound_manager
 )
 
 # Змінення заголовка й іконки вікна
@@ -89,9 +86,7 @@ class Game:
         for bullet in player_bullets:
             collided_enemies = pygame.sprite.spritecollide(bullet, enemies, False)
             if collided_enemies:
-                sound = pygame.mixer.Sound(HIT_SOUND)
-                sound.set_volume(SOUNDS_VOLUME)
-                sound.play()
+                sound_manager.play_sound("hit")
                 bullet.kill()
                 for enemy in collided_enemies:
                     enemy.hp -= bullet.damage
@@ -100,9 +95,7 @@ class Game:
         for bullet in enemy_bullets:
             collided = pygame.sprite.spritecollide(bullet, [self.player], False)
             if collided:
-                sound = pygame.mixer.Sound(HIT_SOUND)
-                sound.set_volume(SOUNDS_VOLUME)
-                sound.play()
+                sound_manager.play_sound("hit")
                 bullet.kill()
                 self.player.hp -= bullet.damage
 
@@ -110,9 +103,7 @@ class Game:
         for bullet in bullets:
             collided_walls = pygame.sprite.spritecollide(bullet, walls, False)
             if collided_walls:
-                sound = pygame.mixer.Sound(WALL_HIT_SOUND)
-                sound.set_volume(SOUNDS_VOLUME)
-                sound.play()
+                sound_manager.play_sound("wall_hit")
                 bullet.kill()
                 for wall in collided_walls:
                     wall.hp -= bullet.damage
@@ -121,9 +112,7 @@ class Game:
         for enemy in enemies:
             collided = pygame.sprite.spritecollide(enemy, [self.player], False)
             if collided:
-                sound = pygame.mixer.Sound(DEATH_SOUND)
-                sound.set_volume(SOUNDS_VOLUME)
-                sound.play()
+                sound_manager.play_sound("death")
                 self.player.hp = 0
 
     def _game_update(self) -> None:
