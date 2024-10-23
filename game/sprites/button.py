@@ -3,6 +3,7 @@ from typing import Tuple, Callable
 
 import pygame
 from settings import COLORS, window, screen_manager
+#from main import Game
 
 pygame.init()
 
@@ -81,6 +82,10 @@ class ButtonCallbacks:
     @staticmethod
     def start_game() -> None:
         screen_manager.change_screen("GAME")
+
+    @staticmethod
+    def retry_game() -> None:
+        screen_manager.change_screen("RETRY")
 
     @staticmethod
     def exit() -> None:
