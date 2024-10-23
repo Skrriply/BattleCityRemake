@@ -55,7 +55,6 @@ python game/main.py
 
 # 🧑‍💻 Розробники
 
-- [GFenixxxG](https://github.com/GFenixxxG)
 - [Maksum10123](https://github.com/Maksum10123)
 - [Skrriply](https://github.com/Skrriply)
 - [NazarUsius](https://github.com/NazarUsius)
