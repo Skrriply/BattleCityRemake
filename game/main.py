@@ -3,7 +3,6 @@ import sys
 import pygame
 
 import sprites as sprites
-from game.settings import MEDKIT_TEXTURE
 from map import MapManager
 from settings import (
     PLAYER_TEXTURE,
@@ -21,6 +20,7 @@ from settings import (
     END_TEXTURE,
     bullets,
     sound_manager,
+    medkits
 )
 
 # Змінення заголовка й іконки вікна
@@ -84,9 +84,6 @@ class Game:
             PLAYER_TEXTURE, player_x, player_y, 85, 100, 5, 100
         )
 
-        self.medkit = sprites.Medkit(
-            MEDKIT_TEXTURE, 50, 50, 85, 100
-        )
 
     @staticmethod
     def _handle_events() -> None:
@@ -138,14 +135,21 @@ class Game:
                 sound_manager.play_sound("death")
                 self.player.hp = 0
 
+        for med in medkits:
+            collided = pygame.sprite.spritecollide(med, [self.player], False)
+            if collided:
+                med.kill()
+                self.player.hp += 40
+                print(self.player.hp)
+
     def _game_update(self) -> None:
         window.fill(COLORS["black"])
+        medkits.update()
         walls.update()
         bullets.update()
         enemies.update(self.player.rect.x, self.player.rect.y)
         self.player.update()
         self._check_collisions()
-        self.medkit.update()
 
     def _menu_update(self) -> None:
         window.blit(
