@@ -3,7 +3,6 @@ from typing import Tuple, Callable
 
 import pygame
 from settings import COLORS, window, screen_manager
-#from main import Game
 
 pygame.init()
 
