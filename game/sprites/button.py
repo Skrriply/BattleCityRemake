@@ -82,7 +82,6 @@ class ButtonCallbacks:
     def start_game() -> None:
         screen_manager.change_screen("GAME")
 
-
     @staticmethod
     def exit() -> None:
         sys.exit()
