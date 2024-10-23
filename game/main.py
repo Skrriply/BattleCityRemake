@@ -3,6 +3,7 @@ import sys
 import pygame
 
 import sprites as sprites
+from game.settings import DEATH_SOUND
 from map import MapManager
 from settings import (
     PLAYER_TEXTURE,
@@ -115,6 +116,15 @@ class Game:
                 bullet.kill()
                 for wall in collided_walls:
                     wall.hp -= bullet.damage
+
+        # Взаємодія ворога з гравцем
+        for enemy in enemies:
+            collided = pygame.sprite.spritecollide(enemy, [self.player], False)
+            if collided:
+                sound = pygame.mixer.Sound(DEATH_SOUND)
+                sound.set_volume(SOUNDS_VOLUME)
+                sound.play()
+                self.player.hp = 0
 
     def _game_update(self) -> None:
         window.fill(COLORS["black"])
