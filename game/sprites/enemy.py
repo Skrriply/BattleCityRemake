@@ -70,7 +70,7 @@ class Enemy(GameSprite, Movable):
     def update(self, player_x: float, player_y: float) -> None:
         self.player_x, self.player_y = player_x, player_y
         self.move()
-        #self.fire()
+        self.fire()
         self.draw()
 
         if self.hp <= 0:
