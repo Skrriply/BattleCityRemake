@@ -1,5 +1,5 @@
 import pygame
-from settings import bullets, ENEMY_FIRE_DELAY, BULLET_TEXTURE, sound_manager
+from settings import bullets, ENEMY_FIRE_DELAY, BULLET_TEXTURE, sound_manager, walls
 from sprites.bullet import Bullet
 from sprites.game_sprite import GameSprite, Movable
 
@@ -44,6 +44,8 @@ class Enemy(GameSprite, Movable):
             self.last_fire_time = current_time  # Оновлюємо час останнього пострілу
 
     def move(self) -> None:
+        previous_coords = self.rect.copy()
+
         if self.player_x and self.player_y:
             if self.rect.x < self.player_x:
                 self.direction = "RIGHT"
@@ -60,12 +62,15 @@ class Enemy(GameSprite, Movable):
                     self.direction = "UP"
                     self.rect.y -= self.speed
 
-            self.rotate()
+        if pygame.sprite.spritecollide(self, walls, False):
+            self.rect = previous_coords
+
+        self.rotate()
 
     def update(self, player_x: float, player_y: float) -> None:
         self.player_x, self.player_y = player_x, player_y
         self.move()
-        self.fire()
+        #self.fire()
         self.draw()
 
         if self.hp <= 0:
