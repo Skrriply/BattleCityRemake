@@ -20,7 +20,7 @@ from settings import (
     END_TEXTURE,
     bullets,
     sound_manager,
-    medkits
+    medkits,
 )
 
 # Змінення заголовка й іконки вікна
@@ -60,22 +60,10 @@ class Game:
             callbacks.start_game,
         )
         self.exit_button = sprites.Button(
-            WINDOW_WIDTH / 2,
-            510,
-            170,
-            50,
-            "Exit",
-            COLORS["red"],
-            callbacks.exit
+            WINDOW_WIDTH / 2, 510, 170, 50, "Exit", COLORS["red"], callbacks.exit
         )
         self.retry_button = sprites.Button(
-            WINDOW_WIDTH / 2,
-            450,
-            170,
-            50,
-            "Retry",
-            COLORS["yellow"],
-            self.restart
+            WINDOW_WIDTH / 2, 450, 170, 50, "Retry", COLORS["yellow"], self.restart
         )
 
         # Створення гравця та мапи
@@ -83,7 +71,6 @@ class Game:
         self.player = sprites.Player(
             PLAYER_TEXTURE, player_x, player_y, 85, 100, 5, 100
         )
-
 
     @staticmethod
     def _handle_events() -> None:
@@ -135,12 +122,12 @@ class Game:
                 sound_manager.play_sound("death")
                 self.player.hp = 0
 
-        for med in medkits:
-            collided = pygame.sprite.spritecollide(med, [self.player], False)
+        # Взаємодія аптечки із гравцем
+        for medkit in medkits:
+            collided = pygame.sprite.spritecollide(medkit, [self.player], False)
             if collided:
-                med.kill()
-                self.player.hp += 40
-                print(self.player.hp)
+                medkit.kill()
+                self.player.hp += medkit.heal
 
     def _game_update(self) -> None:
         window.fill(COLORS["black"])
