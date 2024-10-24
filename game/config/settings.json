@@ -2,7 +2,8 @@
   "window_width": 800,
   "window_height": 600,
   "fps": 60,
-  "fire_delay": 300,
+  "player_fire_delay": 300,
+  "enemy_fire_delay": 500,
   "colors": {
     "black": [
       0,
@@ -13,7 +14,26 @@
       255,
       255,
       255
+    ],
+    "yellow": [
+      204,
+      204,
+      0
+    ],
+    "green": [
+      12,
+      245,
+      12
+    ],
+    "red": [
+      245,
+      12,
+      12
     ]
+  },
+  "volume": {
+    "music": 0.5,
+    "sounds": 0.25
   },
   "map": [
     "config",
@@ -43,6 +63,10 @@
     "end_menu": [
       "textures",
       "end-menu.png"
+    ],
+    "medkit": [
+      "textures",
+      "medkit.png"
     ]
   },
   "sounds": {

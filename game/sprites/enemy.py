@@ -1,6 +1,6 @@
 import pygame
-
-from settings import DEATH_SOUND
+from settings import bullets, ENEMY_FIRE_DELAY, BULLET_TEXTURE, sound_manager, walls
+from sprites.bullet import Bullet
 from sprites.game_sprite import GameSprite, Movable
 
 
@@ -22,8 +22,30 @@ class Enemy(GameSprite, Movable):
         super().__init__(texture, x, y, width, height, speed=speed, hp=hp)
         self.player_x = None
         self.player_y = None
+        self.last_fire_time = pygame.time.get_ticks()  # Час останнього пострілу
+
+    def fire(self) -> None:
+        current_time = pygame.time.get_ticks()
+
+        if current_time - self.last_fire_time >= ENEMY_FIRE_DELAY:
+            sound_manager.play_sound("fire")
+            bullet = Bullet(
+                BULLET_TEXTURE,
+                self.rect.centerx,
+                self.rect.centery,
+                50,
+                50,
+                10,
+                self.direction,
+                40,
+                "ENEMY",
+            )
+            bullets.add(bullet)
+            self.last_fire_time = current_time  # Оновлюємо час останнього пострілу
 
     def move(self) -> None:
+        previous_coords = self.rect.copy()
+
         if self.player_x and self.player_y:
             if self.rect.x < self.player_x:
                 self.direction = "RIGHT"
@@ -40,19 +62,17 @@ class Enemy(GameSprite, Movable):
                     self.direction = "UP"
                     self.rect.y -= self.speed
 
-            self.rotate()
+        if pygame.sprite.spritecollide(self, walls, False):
+            self.rect = previous_coords
 
-    def _check_collisions(self) -> None:
-        # TODO: Додати зіткнення із гравцем та стінами
-        pass
+        self.rotate()
 
     def update(self, player_x: float, player_y: float) -> None:
         self.player_x, self.player_y = player_x, player_y
         self.move()
+        self.fire()
         self.draw()
 
         if self.hp <= 0:
-            sound = pygame.mixer.Sound(DEATH_SOUND)
-            sound.set_volume(0.25)
-            sound.play()
+            sound_manager.play_sound("death")
             self.kill()

@@ -1,7 +1,8 @@
+import sys
 from typing import Tuple, Callable
 
 import pygame
-from settings import COLORS, window
+from settings import COLORS, window, screen_manager
 
 pygame.init()
 
@@ -74,3 +75,13 @@ class Button(pygame.sprite.Sprite):
         self.surface.blit(self.label, self.label_rect)
 
         self.draw()
+
+
+class ButtonCallbacks:
+    @staticmethod
+    def start_game() -> None:
+        screen_manager.change_screen("GAME")
+
+    @staticmethod
+    def exit() -> None:
+        sys.exit()

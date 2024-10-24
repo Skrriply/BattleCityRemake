@@ -1,7 +1,7 @@
 from typing import Tuple
 
 import sprites
-from settings import walls, enemies, ENEMY_TEXTURE, WALL_TEXTURE, PATH_TO_MAP
+from settings import walls, enemies, medkits, ENEMY_TEXTURE, WALL_TEXTURE, PATH_TO_MAP, MEDKIT_TEXTURE
 from utils import open_file
 
 
@@ -14,11 +14,16 @@ class MapObjectFactory:
     def create_enemy(x: int, y: int) -> sprites.Enemy:
         return sprites.Enemy(ENEMY_TEXTURE, x * 100, y * 100, 100, 100, 1, 100)
 
+    @staticmethod
+    def create_medkit(x: int, y: int) -> sprites.Medkit:
+        return sprites.Medkit(MEDKIT_TEXTURE, x * 100, y * 100, 100, 100, 40)
+
 
 class MapManager:
     OBJECT_MAP = {
         "#": MapObjectFactory.create_wall,
         "E": MapObjectFactory.create_enemy,
+        "H": MapObjectFactory.create_medkit,
     }
 
     @staticmethod
@@ -34,6 +39,8 @@ class MapManager:
                         walls.add(obj)
                     elif char == "E":
                         enemies.add(obj)
+                    elif char == "H":
+                        medkits.add(obj)
                 elif char == "P":
                     player_coords = (x * 100, y * 100)
 

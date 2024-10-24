@@ -6,10 +6,9 @@ from settings import (
     walls,
     bullets,
     BULLET_TEXTURE,
-    FIRE_DELAY,
-    FIRE_SOUND,
+    PLAYER_FIRE_DELAY,
     screen_manager,
-    DEATH_SOUND,
+    sound_manager,
 )
 from sprites.bullet import Bullet
 from sprites.game_sprite import GameSprite, Movable
@@ -36,10 +35,8 @@ class Player(GameSprite, Movable):
     def fire(self) -> None:
         current_time = pygame.time.get_ticks()
 
-        if current_time - self.last_fire_time >= FIRE_DELAY:
-            sound = pygame.mixer.Sound(FIRE_SOUND)
-            sound.set_volume(0.25)
-            sound.play()
+        if current_time - self.last_fire_time >= PLAYER_FIRE_DELAY:
+            sound_manager.play_sound("fire")
             bullet = Bullet(
                 BULLET_TEXTURE,
                 self.rect.centerx,
@@ -49,6 +46,7 @@ class Player(GameSprite, Movable):
                 10,
                 self.direction,
                 40,
+                "PLAYER",
             )
             bullets.add(bullet)
             self.last_fire_time = current_time  # Оновлюємо час останнього пострілу
@@ -67,7 +65,7 @@ class Player(GameSprite, Movable):
 
         if pygame.sprite.spritecollide(self, walls, False):
             self.rect = previous_coords
-        
+
         self.rotate()
 
     def process_input(self) -> None:
@@ -95,8 +93,6 @@ class Player(GameSprite, Movable):
         self.draw()
 
         if self.hp <= 0:
-            sound = pygame.mixer.Sound(DEATH_SOUND)
-            sound.set_volume(0.25)
-            sound.play()
+            sound_manager.play_sound("death")
             self.kill()
             screen_manager.change_screen("END")
