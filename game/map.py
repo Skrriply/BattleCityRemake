@@ -16,7 +16,7 @@ class MapObjectFactory:
 
     @staticmethod
     def create_medkit(x: int, y: int) -> sprites.Medkit:
-        return sprites.Medkit(MEDKIT_TEXTURE, x * 100, y * 100, 100, 100)
+        return sprites.Medkit(MEDKIT_TEXTURE, x * 100, y * 100, 100, 100, 40)
 
 
 class MapManager:
