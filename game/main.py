@@ -81,7 +81,7 @@ class Game:
         # Створення гравця та мапи
         player_x, player_y = self.map_manager.load_map()
         self.player = sprites.Player(
-            PLAYER_TEXTURE, player_x, player_y, 85, 100, 5, 100
+            PLAYER_TEXTURE, player_x, player_y, 85, 100, 5, 120
         )
 
 
@@ -135,12 +135,12 @@ class Game:
                 sound_manager.play_sound("death")
                 self.player.hp = 0
 
-        for med in medkits:
-            collided = pygame.sprite.spritecollide(med, [self.player], False)
+        # Взаємодія аптечки з гравцем
+        for medkit in medkits:
+            collided = pygame.sprite.spritecollide(medkit, [self.player], False)
             if collided:
-                med.kill()
-                self.player.hp += 40
-                print(self.player.hp)
+                medkit.kill()
+                self.player.hp += medkit.heal
 
     def _game_update(self) -> None:
         window.fill(COLORS["black"])
